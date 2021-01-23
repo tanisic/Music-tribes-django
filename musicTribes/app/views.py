@@ -16,6 +16,6 @@ def tribe(request,tribe_id):
 def playlist(request,tribe_id,playlist_id):
     tribe = get_object_or_404(Tribe,pk = tribe_id)
     playlist = Playlist.objects.filter(tribe=tribe,pk=playlist_id)
-    songs = Song.objects.filter(playlist=playlist)
+    songs = playlist.songs.all()
     return render(request,"app/playlist.html",context={"playlist":playlist,"songs":songs})
 
