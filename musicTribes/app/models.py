@@ -19,27 +19,31 @@ class TimeStamped(models.Model):
 
 class Tribe(TimeStamped):
     chieftain=models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-
+    name = models.CharField(unique=True,max_length=50,blank=False)
     def chieftain(self):
         return self.chieftain
 
     def created_by(self):
         return self.chieftain.username
+    
+    def __str__(self):
+        return self.name
 
 class Playlist(TimeStamped):
     tribe = models.ForeignKey(Tribe,on_delete=models.CASCADE)
     name = models.CharField(unique=True,blank=False,max_length=128)
     creator = models.ForeignKey(User,on_delete=models.CASCADE,default=1)
 
-    def str(self):
+    def __str__(self):
         return self.name
 
 class Song(TimeStamped):
-    playlists = models.ManyToManyField(Playlist)
+    playlist = models.ForeignKey(Playlist,on_delete=models.CASCADE)
     url = models.CharField(max_length=60,unique=True,blank=False)
     title = models.CharField(blank=False,max_length=200)
-
-    def str(self):
+    creator = models.ForeignKey(User,on_delete=models.CASCADE)
+    
+    def __str__(self):
         return self.title
 class Comment(TimeStamped):
     user = models.ForeignKey(User,on_delete=models.CASCADE)

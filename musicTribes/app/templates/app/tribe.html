@@ -1,0 +1,11 @@
+{% extends 'app/base.html' %}
+    
+{% block content %}
+<div class = row>
+    {% for playlist in playlists %}
+    <div class="col-md-6">
+        <a href="{% url 'app:playlist' tribe_id=tribe.id playlist_id=playlist.id %}"><h1>{{ playlist.name }}</h1></a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

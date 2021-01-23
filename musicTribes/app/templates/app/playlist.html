@@ -1,0 +1,14 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<h1>Playlist name: {{ playlist.name }}</h1>
+<div class = "row">
+{% for song in songs %}
+<div class = "col-md-4">
+    <h2>{{ song.title }}</h2>
+    <a href="{{ song.url }}"><h2>LINK to song</h2></a>
+</div>
+
+{% endfor %}
+</div>
+{% endblock %}
