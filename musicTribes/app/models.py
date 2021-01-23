@@ -14,3 +14,5 @@ class TimeStamped(models.Model):
 
     class Meta:
         abstract = True
+
+class Tribe(TimeStamped):
