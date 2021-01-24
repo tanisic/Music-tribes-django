@@ -18,13 +18,13 @@ class TimeStamped(models.Model):
         abstract = True
 
 class Tribe(TimeStamped):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     name = models.CharField(unique=True,max_length=50,blank=False)
     def author(self):
-        return self.user
+        return self.creator
 
     def created_by(self):
-        return self.user.username
+        return self.creator.username
     
     def __str__(self):
         return self.name
