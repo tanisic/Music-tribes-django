@@ -40,7 +40,8 @@
             <a class="nav-link disabled" href="#">Profile</a>
           </li>
         </ul>
-        <a class="nav-link float-right" href="#">Log in</a>
+        <a class="nav-link float-right" href="{% url 'login' %}">Log in</a>
+        <a class="nav-link" href="{% url 'accounts:signup' %}">Sign up</a>
       </div>
     </nav>
   </div>

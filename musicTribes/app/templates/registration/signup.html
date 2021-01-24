@@ -2,14 +2,14 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-12"><h2 class="text-center">Log in</h2></div>
+        <div class="col-md-12"><h2 class="text-center">Sign up</h2></div>
     </div>
         <form method="post" accept-charset="utf-8">
             {% csrf_token %}
             
             {%include 'includes/bs4_form.html' with form=form %}
             <div class="row">
-            <div class="col-md-8 mx-auto"><input type="submit" value="Login" class="btn btn-primary"></div>
+            <div class="col-md-8 mx-auto"><input type="submit" value="Sign up" class="btn btn-primary"></div>
             </div>
             
         </form>
