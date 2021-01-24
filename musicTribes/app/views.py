@@ -6,16 +6,24 @@ from .models import Playlist, Tribe, Song
 # Create your views here.
 def index(request):
     tribes = Tribe.objects.order_by("created_at")
-    return render(request,"app/index.html",context={"tribes":tribes})
+    context={"tribes":tribes}
+
+    return render(request,"app/index.html",context)
 
 def tribe(request,tribe_id):
     tribe = get_object_or_404(Tribe,pk=tribe_id)
     playlists = Playlist.objects.filter(tribe=tribe)
-    return render(request,"app/tribe.html",context={"tribe":tribe, "playlists":playlists})
+    context={"tribe":tribe, 
+            "playlists":playlists}
+
+    return render(request,"app/tribe.html",context)
 
 def playlist(request,tribe_id,playlist_id):
     tribe = get_object_or_404(Tribe,pk = tribe_id)
     playlist = Playlist.objects.filter(tribe=tribe,pk=playlist_id)
-    songs = playlist.songs.all()
-    return render(request,"app/playlist.html",context={"playlist":playlist,"songs":songs})
+    songs = playlist[0].songs.all()
+    context={"playlist":playlist,
+            "songs":songs}
+
+    return render(request,"app/playlist.html",context)
 
