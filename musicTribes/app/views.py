@@ -21,7 +21,8 @@ def tribe(request,tribe_id):
 def playlist(request,tribe_id,playlist_id):
     tribe = get_object_or_404(Tribe,pk = tribe_id)
     playlist = Playlist.objects.filter(tribe=tribe,pk=playlist_id)
-    songs = playlist[0].songs.all()
+    playlist = playlist[0]
+    songs = playlist.songs.all()
     context={"playlist":playlist,
             "songs":songs}
 
