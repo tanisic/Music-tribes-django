@@ -5,7 +5,7 @@
  <div class="card bg-light text-dark">
     <div class="card-body">
         <a href="{% url 'app:tribe' tribe.id %}"><h1 style="display:inline;">{{ tribe.name }}</h1></a>
-        <h4></h4>
+        <h4>{{tribe.created_by}}</h4>
         <img class="card-img float-right" src="{% static 'app/chieftain-logo.png' %}" alt="Card image">
     </div>
 </div>
