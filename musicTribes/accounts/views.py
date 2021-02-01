@@ -17,3 +17,8 @@ class SignUpView(generic.CreateView):
 # Create your views here.
 def profile(request,user_id):
     user_profile = User.objects.filter(id=user_id).first()
+
+def editprofile(request,user_id):
+    user_profile = User.objects.filter(id=user_id).first()
+    context={"user" : user_profile}
+    return render(request,"app/edituser.html",context)

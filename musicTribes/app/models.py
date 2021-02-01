@@ -3,6 +3,7 @@ from django.db.models import constraints
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+
 class TimeStamped(models.Model):
     created_at = models.DateTimeField(editable=False)
     updated_at = models.DateTimeField(editable=False)
