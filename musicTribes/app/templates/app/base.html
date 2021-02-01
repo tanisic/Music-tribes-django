@@ -27,7 +27,7 @@
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item active">
-            <a class="nav-link " href="#">Add new tribe</a>
+            <a class="nav-link " href="{% url 'app:create_tribe' %}">Add new tribe</a>
           </li>
           <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My tribes</a>

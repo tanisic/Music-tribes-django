@@ -1,3 +1,4 @@
+from .forms import TribeForm, PlaylistForm
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -28,3 +29,28 @@ def playlist(request,tribe_id,playlist_id):
 
     return render(request,"app/playlist.html",context)
 
+def create_tribe(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        form = TribeForm(request.POST)
+        if form.is_valid():
+            saved_tribe = form.save(commit=False)
+            saved_tribe.creator = request.user
+            saved_tribe.save()
+            return HttpResponseRedirect(reverse('app:tribe',args=(saved_tribe.id,)))
+    else:
+        form = TribeForm()
+    context = {'form':form, 'action':'create'}
+    return render(request,'app/create_tribe.html',context)
+
+def create_playlist(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        form = PlaylistForm(request.POST)
+        if form.is_valid():
+            saved_playlist = form.save(commit=False)
+            saved_playlist.creator = request.user
+            saved_playlist.save()
+            return HttpResponseRedirect(reverse('app:tribe',args=(saved_playlist.id,)))
+    else:
+        form = PlaylistForm()
+    context = {'form':form, 'action':'create'}
+    return render(request,'app/create_playlist.html',context)
