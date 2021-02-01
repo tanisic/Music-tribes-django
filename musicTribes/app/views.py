@@ -49,7 +49,7 @@ def create_playlist(request):
             saved_playlist = form.save(commit=False)
             saved_playlist.creator = request.user
             saved_playlist.save()
-            return HttpResponseRedirect(reverse('app:tribe',args=(saved_playlist.id,)))
+            return HttpResponseRedirect(reverse('app:playlist',args=(saved_playlist.tribe.id,saved_playlist.id,)))
     else:
         form = PlaylistForm()
     context = {'form':form, 'action':'create'}
