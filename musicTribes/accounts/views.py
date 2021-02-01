@@ -1,13 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views import generic
+from .forms import ExtendedUserCreationForm, EditUserForm
 
-class ExtendedUserCreationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password1', 'password2')
 
 class SignUpView(generic.CreateView):
     form_class=ExtendedUserCreationForm
@@ -18,7 +15,16 @@ class SignUpView(generic.CreateView):
 def profile(request,user_id):
     user_profile = User.objects.filter(id=user_id).first()
 
-def editprofile(request,user_id):
-    user_profile = User.objects.filter(id=user_id).first()
-    context={"user" : user_profile}
-    return render(request,"app/edituser.html",context)
+def editprofile(request):
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            user_form = form.save()
+            return redirect('app:index')
+    else:
+        form = EditUserForm(instance=request.user)
+        context = {}
+        # args.update(csrf(request))
+        context['form'] = form
+        return render(request, 'app/edituser.html', context)
