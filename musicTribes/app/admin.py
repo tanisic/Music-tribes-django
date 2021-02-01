@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Tribe,Playlist,Song,Like,Comment
+from .models import Tribe,Playlist,Song,Like,Comment,Profile
 # Register your models here.
 
+admin.site.register(Profile)
 admin.site.register(Tribe)
 admin.site.register(Playlist)
 admin.site.register(Song)
