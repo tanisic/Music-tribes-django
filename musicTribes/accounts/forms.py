@@ -9,7 +9,12 @@ class ExtendedUserCreationForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
-class EditUserForm(ExtendedUserCreationForm):
+class EditUserForm(UserChangeForm):
     class Meta:
         model = User
-        fields=('first_name','last_name','email', 'password1', 'password2')
+        fields=('username','email','first_name','last_name')
+    
+class ChangePasswordForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields=('password1','password2')
