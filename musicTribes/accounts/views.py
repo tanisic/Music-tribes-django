@@ -4,8 +4,13 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views import generic
 
+class ExtendedUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+
 class SignUpView(generic.CreateView):
-    form_class=UserCreationForm
+    form_class=ExtendedUserCreationForm
     success_url= reverse_lazy('login')
     template_name = 'registration/signup.html'
 
