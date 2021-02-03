@@ -4,6 +4,7 @@
     {% for tribe in tribes %}    
  <div class="card bg-light text-dark">
     <div class="card-body">
+        <img class = "avatar" src="{{tribe.logourl}}"></img>
         <a href="{% url 'app:tribe' tribe.id %}"><h1 style="display:inline;">{{ tribe.name }}</h1></a>
         <img class="card-img float-right" src="{% static 'app/chieftain-logo.png' %}" alt="Card image">
         <h4 class ="float-right" style="display:inline;">created by: {{tribe.created_by}}</h4>

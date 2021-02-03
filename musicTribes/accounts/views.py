@@ -55,9 +55,12 @@ def editprofile(request):
 
     else:
         user_form = EditUserForm(instance=request.user)
+        profile = request.user.profile
         profile_form = EditProfileForm(instance=request.user.profile)
-        context = {}
+        context = {"form":user_form,
+                    "profile":profile}
         context['form']=user_form
+        
         return render(request, 'app/edituser.html', context)
 
 def extendededit(request):

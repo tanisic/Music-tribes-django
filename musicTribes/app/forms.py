@@ -5,7 +5,7 @@ from django.forms import ModelForm, fields
 class TribeForm(ModelForm):
     class Meta:
         model = Tribe
-        fields = ['name']
+        fields = ['name', 'genre', 'logourl']
 
 class PlaylistForm(ModelForm):
     class Meta:
