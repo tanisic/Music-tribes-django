@@ -1,7 +1,10 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block content %}
-    <h1>{{user.username}}</h1>
+    <div class="edit-user-header">
+        <h1>{{user.username}}</h1>
+        <img class="avatar" src ="{{profile.avatarurl}}"></img>
+    </div>
     <a href="{%url 'accounts:changepassword' %}">Change password</a>
     <a href="{%url 'accounts:extendededit' %}">Change bio and avatar</a>
     <div class="row">
