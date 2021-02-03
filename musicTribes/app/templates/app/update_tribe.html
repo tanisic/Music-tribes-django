@@ -1,0 +1,14 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+        <div class="col-md-12"><h2 class="text-center">Update Tribe</h2></div>
+    </div>
+        <form method="post" accept-charset="utf-8">
+            {% csrf_token %}
+            
+            {%include 'includes/bs4_form.html' with form=form %}
+            <div class="row">
+            <div class="col-md-8 mx-auto"><input type="submit" value="Save" class="btn btn-primary"></div>
+{% endblock %}

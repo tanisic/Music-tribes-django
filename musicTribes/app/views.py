@@ -41,7 +41,7 @@ def create_tribe(request):
         form = TribeForm()
     context = {'form':form, 'action':'create'}
     return render(request,'app/create_tribe.html',context)
-"""
+
 def update_tribe(request, tribe_id):
     
     tribe = get_object_or_404(Tribe, pk=tribe_id)
@@ -54,8 +54,8 @@ def update_tribe(request, tribe_id):
         form = TribeForm(instance=tribe)
         
     context = { 'form':form, 'action':'update', }
-    return render(request, 'app/create_tribe.html', context)
-"""
+    return render(request, 'app/update_tribe.html', context)
+
 
 def create_playlist(request):
     if request.method == 'POST' and request.user.is_authenticated:
