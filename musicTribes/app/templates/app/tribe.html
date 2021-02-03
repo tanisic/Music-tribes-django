@@ -1,6 +1,7 @@
 {% extends 'app/base.html' %}
     
 {% block content %}
+<a href="{% url 'app:create_playlist' %}">Create New Playlist</a>
 <div class = row>
     {% for playlist in playlists %}
     <div class="col-md-6">

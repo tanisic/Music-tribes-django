@@ -47,23 +47,23 @@ class Tribe(TimeStamped):
     
     def __str__(self):
         return self.name
-
-class Song(TimeStamped):
-    url = models.CharField(max_length=60,unique=True,blank=False)
-    title = models.CharField(blank=False,max_length=200)
-    creator = models.ForeignKey(User,on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.title
-
 class Playlist(TimeStamped):
     tribe = models.ForeignKey(Tribe,on_delete=models.CASCADE)
     name = models.CharField(unique=True,blank=False,max_length=128)
     creator = models.ForeignKey(User,on_delete=models.CASCADE,default=1)
-    songs = models.ManyToManyField(Song)
+    
 
     def __str__(self):
         return self.name
+class Song(TimeStamped):
+    url = models.CharField(max_length=60,unique=False,blank=False)
+    title = models.CharField(blank=False,max_length=200)
+    creator = models.ForeignKey(User,on_delete=models.CASCADE)
+    playlist = models.ForeignKey(Playlist,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.title
+
+
 
 class Comment(TimeStamped):
     user = models.ForeignKey(User,on_delete=models.CASCADE)

@@ -1,5 +1,5 @@
 from django.db.models.base import Model
-from .models import Playlist, Tribe
+from .models import Playlist, Song, Tribe
 from django.forms import ModelForm, fields
 
 class TribeForm(ModelForm):
@@ -10,4 +10,9 @@ class TribeForm(ModelForm):
 class PlaylistForm(ModelForm):
     class Meta:
         model = Playlist
-        fields = ['tribe','name','songs']
+        fields = ['tribe','name',]
+
+class SongForm(ModelForm):
+    class Meta:
+        model = Song
+        fields = ['title','url']

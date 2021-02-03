@@ -1,4 +1,4 @@
-from .forms import TribeForm, PlaylistForm
+from .forms import TribeForm, PlaylistForm, SongForm
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -22,8 +22,8 @@ def tribe(request,tribe_id):
 def playlist(request,tribe_id,playlist_id):
     tribe = get_object_or_404(Tribe,pk = tribe_id)
     playlist = Playlist.objects.filter(tribe=tribe,pk=playlist_id)
+    songs = Song.objects.filter(playlist=playlist.first())
     playlist = playlist[0]
-    songs = playlist.songs.all()
     context={"playlist":playlist,
             "songs":songs}
 
@@ -69,3 +69,18 @@ def create_playlist(request):
         form = PlaylistForm()
     context = {'form':form, 'action':'create'}
     return render(request,'app/create_playlist.html',context)
+
+def create_song(request,playlist_id):
+    if request.method == 'POST' and request.user.is_authenticated:
+        form = SongForm(request.POST)
+        if form.is_valid():
+            saved_song = form.save(commit=False)
+            saved_song.creator = request.user
+            saved_song.playlist = get_object_or_404(Playlist,pk=playlist_id)
+            saved_song.save()
+            tribe = saved_song.playlist.tribe         
+            return HttpResponseRedirect(reverse('app:playlist',args=(tribe.id,playlist_id)))
+    else:
+        form = SongForm()
+    context = {'form':form, 'action':'create'}
+    return render(request,'app/create_song.html',context)
