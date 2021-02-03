@@ -4,24 +4,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=1000, blank=True)
-    avatarurl =  models.CharField(max_length=500,blank=False)
-
-    def __str__(self):
-        return self.user.username
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
-
 class TimeStamped(models.Model):
     created_at = models.DateTimeField(editable=False)
     updated_at = models.DateTimeField(editable=False)
@@ -37,18 +19,43 @@ class TimeStamped(models.Model):
         abstract = True
 
 class Tribe(TimeStamped):
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    chieftain = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     name = models.CharField(unique=True,max_length=50,blank=False)
     logourl =  models.CharField(max_length=1000,blank=False)
     genre = models.CharField(max_length=100,blank=False)
     def author(self):
-        return self.creator
+        return self.chieftain
 
     def created_by(self):
-        return self.creator.username
+        return self.chieftain.username
     
     def __str__(self):
         return self.name
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=1000, blank=True)
+    avatarurl =  models.CharField(max_length=500,blank=False)
+    tribes = models.ManyToManyField(Tribe,blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+    
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+
+
+
 class Playlist(TimeStamped):
     tribe = models.ForeignKey(Tribe,on_delete=models.CASCADE)
     name = models.CharField(unique=True,blank=False,max_length=128)

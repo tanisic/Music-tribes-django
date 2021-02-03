@@ -13,9 +13,14 @@ def index(request):
 
 def tribe(request,tribe_id):
     tribe = get_object_or_404(Tribe,pk=tribe_id)
+    is_member = False
+    if tribe in request.user.profile.tribes.all(): 
+        is_member = True
     playlists = Playlist.objects.filter(tribe=tribe)
     context={"tribe":tribe, 
-            "playlists":playlists}
+            "playlists":playlists,
+            "is_member":is_member
+            }
 
     return render(request,"app/tribe.html",context)
 
@@ -84,3 +89,14 @@ def create_song(request,playlist_id):
         form = SongForm()
     context = {'form':form, 'action':'create'}
     return render(request,'app/create_song.html',context)
+
+def join(request,tribe_id):
+    tribe = Tribe.objects.get(id=tribe_id)
+    if request.method == 'POST' and request.user.is_authenticated:
+        profile = request.user.profile
+        profile.tribes.add(tribe)
+        
+        return HttpResponseRedirect(reverse('app:tribe',args=(tribe_id,)))
+    else:
+        context = {"tribe":tribe}
+        return render(request,"app/tribe.html",context)

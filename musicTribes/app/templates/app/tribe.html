@@ -1,6 +1,10 @@
 {% extends 'app/base.html' %}
     
 {% block content %}
+
+{% if user.username != tribe.created_by and not is_member %}
+{% include 'includes/join_button.html' with tribe=tribe %}
+{% endif %}
 <a href="{% url 'app:create_playlist' %}">Create New Playlist</a>
 <div class = row>
     {% for playlist in playlists %}
