@@ -60,6 +60,7 @@ class Playlist(TimeStamped):
     tribe = models.ForeignKey(Tribe,on_delete=models.CASCADE)
     name = models.CharField(unique=True,blank=False,max_length=128)
     creator = models.ForeignKey(User,on_delete=models.CASCADE,default=1)
+    description = models.TextField(max_length=1000)
     
     def __str__(self):
         return self.name

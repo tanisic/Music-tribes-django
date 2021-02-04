@@ -7,14 +7,16 @@
         <h2 class ="float-right">Joined</h2>
     {% endif %}
 {% endif %}
-<a href="{% url 'app:create_playlist' %}">Create New Playlist</a>
+{% include "includes/create_playlist_button.html" %}
 
 <div class ="tribe-content">
     <h1>Chieftain</h1>
     <h3>{{tribe.created_by}}</h3>
+    
     <h1>Playlists</h1>
     {% for playlist in playlists %}
         <a href="{% url 'app:playlist' tribe_id=tribe.id playlist_id=playlist.id %}"><h1>{{ playlist.name }}</h1></a>
+        <p>{{ playlist.description }}</p>
          {% if user == playlist.creator or user.is_superuser or user == tribe.chieftain %}
         {% include "includes/delete_playlist_button.html" with playlist=playlist %}
         {% endif %}

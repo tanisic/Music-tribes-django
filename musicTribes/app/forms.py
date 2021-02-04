@@ -10,7 +10,7 @@ class TribeForm(ModelForm):
 class PlaylistForm(ModelForm):
     class Meta:
         model = Playlist
-        fields = ['tribe','name',]
+        fields = ['tribe','name','description']
 
 class SongForm(ModelForm):
     class Meta:
