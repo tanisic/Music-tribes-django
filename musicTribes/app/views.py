@@ -164,3 +164,14 @@ def update_playlist(request,playlist_id):
         
     context = { 'form':form, 'action':'update', }
     return render(request, 'app/update_playlist.html', context)
+
+def leave(request,tribe_id):
+    tribe = Tribe.objects.get(id=tribe_id)
+    if request.method == 'POST' and request.user.is_authenticated:
+        profile = request.user.profile
+        profile.tribes.remove(tribe)
+        
+        return HttpResponseRedirect(reverse('app:tribe',args=(tribe_id,)))
+    else:
+        context = {"tribe":tribe}
+        return render(request,"app/tribe.html",context)

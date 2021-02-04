@@ -4,17 +4,17 @@
     {% if user.username != tribe.created_by and not is_member %}
         {% include 'includes/join_button.html' with tribe=tribe %}
     {% elif user.username != tribe.created_by and is_member %}
+        {% include 'includes/leave_tribe_button.html' with tribe=tribe %}
         <div class = "joined-container float-right">
             <h2 style="display:inline;">Joined</h2>
             <i class="fa fa-check" aria-hidden="true"></i>
         </div>
-
     {% endif %}
 {% endif %}
 {% include "includes/create_playlist_button.html " %}
 
 <div class ="tribe-content row">
-    <h1>Chieftain is: {{tribe.created_by}}</h1>
+    <h1>Chieftain: {{tribe.created_by}}</h1>
     
     <h1><br>Playlists</h1>
     
@@ -31,12 +31,14 @@
     {%empty%}
     <h5 class="text-muted">Nothing here yet.</h5>
     {% endfor %}
+    <div class="col-md-3"
     <h1>Members</h1>
     {% for tribe_member in tribe_members %}
         <div class="edit-user-header">
             <img class="avatar" src ="{{tribe_member.avatarurl}}"></img>
             <h2 style="display:inline;">{{tribe_member}}</h2>
         </div>
+    </div>
         {%empty%}
         <h5 class="text-muted">This tribe has no members yet.</h5>
     </div>

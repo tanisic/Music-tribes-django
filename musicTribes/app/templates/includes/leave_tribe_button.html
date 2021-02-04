@@ -1,0 +1,6 @@
+<form action="{% url 'app:leave' tribe.id %}" method ="post"
+    role="form"
+    class="form-inline float-left">
+    {% csrf_token %}
+    <input type="submit" value="Leave tribe" class="btn btn-danger">
+</form>

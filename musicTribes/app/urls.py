@@ -8,6 +8,7 @@ urlpatterns = [
     path('create_tribe', views.create_tribe, name='create_tribe'),
     path('<int:tribe_id>/', views.tribe, name='tribe'),
     path('<int:tribe_id>/join', views.join, name='join'),
+    path('<int:tribe_id>/leave', views.leave, name='leave'),
     path('<int:tribe_id>/create_playlist', views.create_playlist, name='create_playlist'),
     path('<int:tribe_id>/update_tribe/', views.update_tribe, name='update_tribe'),
     path('<int:tribe_id>/playlist/<int:playlist_id>', views.playlist, name='playlist'),
