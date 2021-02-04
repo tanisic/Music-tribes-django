@@ -49,13 +49,10 @@ def tribe(request,tribe_id):
         if tribe in profile.tribes.all():
             tribe_members_id.append(profile.id)
         
+    is_member=False
     if request.user.is_authenticated:
         if tribe in request.user.profile.tribes.all(): 
             is_member = True
-        else:
-            is_member = False
-    else:
-        is_member = True
         
     playlists = Playlist.objects.filter(tribe=tribe)
     tribe_members = Profile.objects.filter(id__in=tribe_members_id)
