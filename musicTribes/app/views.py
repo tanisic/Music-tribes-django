@@ -67,7 +67,7 @@ def create_tribe(request):
         form = TribeForm(request.POST)
         if form.is_valid():
             saved_tribe = form.save(commit=False)
-            saved_tribe.creator = request.user
+            saved_tribe.chieftain = request.user
             saved_tribe.save()
             return HttpResponseRedirect(reverse('app:tribe',args=(saved_tribe.id,)))
     else:
@@ -78,7 +78,7 @@ def create_tribe(request):
 def update_tribe(request, tribe_id):
     
     tribe = get_object_or_404(Tribe, pk=tribe_id)
-    if request.method == 'POST' and (tribe.creator == request.user):
+    if request.method == 'POST' and (tribe.chieftain == request.user):
         form = TribeForm(request.POST, instance = tribe)
         if form.is_valid():
             saved_tribe = form.save()
