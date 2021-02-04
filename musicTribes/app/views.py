@@ -140,3 +140,10 @@ def join(request,tribe_id):
     else:
         context = {"tribe":tribe}
         return render(request,"app/tribe.html",context)
+
+def delete_playlist(request,playlist_id):
+    playlist = Playlist.objects.filter(pk=playlist_id).first()
+    tribe_id = playlist.tribe.id
+    if request.user == playlist.creator or request.user == playlist.tribe.chieftain or request.user.is_superuser:
+        playlist.delete()
+    return HttpResponseRedirect(reverse('app:tribe',args=(tribe_id,)))

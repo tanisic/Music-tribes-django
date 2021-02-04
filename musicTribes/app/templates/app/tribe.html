@@ -15,6 +15,9 @@
     <h1>Playlists</h1>
     {% for playlist in playlists %}
         <a href="{% url 'app:playlist' tribe_id=tribe.id playlist_id=playlist.id %}"><h1>{{ playlist.name }}</h1></a>
+         {% if user == playlist.creator or user.is_superuser or user == tribe.chieftain %}
+        {% include "includes/delete_playlist_button.html" with playlist=playlist %}
+        {% endif %}
     {%empty%}
     <h5 class="text-muted">Nothing here yet.</h5>
     {% endfor %}
@@ -26,6 +29,7 @@
         </div>
         {%empty%}
         <h5 class="text-muted">This tribe has no members yet.</h5>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}
