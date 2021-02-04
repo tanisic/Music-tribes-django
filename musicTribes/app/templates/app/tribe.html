@@ -1,16 +1,27 @@
 {% extends 'app/base.html' %}
-    
 {% block content %}
-
 {% if user.username != tribe.created_by and not is_member %}
 {% include 'includes/join_button.html' with tribe=tribe %}
 {% endif %}
 <a href="{% url 'app:create_playlist' %}">Create New Playlist</a>
-<div class = row>
+
+<div class ="tribe-content">
+    <h1>Chieftain</h1>
+    <h3>{{tribe.created_by}}</h3>
+    <h1>Playlists</h1>
     {% for playlist in playlists %}
-    <div class="col-md-6">
         <a href="{% url 'app:playlist' tribe_id=tribe.id playlist_id=playlist.id %}"><h1>{{ playlist.name }}</h1></a>
-    </div>
+    {%empty%}
+    <h5 class="text-muted">Nothing here yet.</h5>
+    {% endfor %}
+    <h1>Members</h1>
+    {% for tribe_member in tribe_members %}
+        <div class="edit-user-header">
+            <img class="avatar" src ="{{tribe_member.avatarurl}}"></img>
+            <h2 style="display:inline;">{{tribe_member}}</h2>
+        </div>
+        {%empty%}
+        <h5 class="text-muted">This tribe has no members yet.</h5>
     {% endfor %}
 </div>
 {% endblock %}

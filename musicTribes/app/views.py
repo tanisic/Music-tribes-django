@@ -2,7 +2,7 @@ from .forms import TribeForm, PlaylistForm, SongForm
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
-from .models import Playlist, Tribe, Song
+from .models import Playlist, Tribe, Song, Profile
 
 # Create your views here.
 def index(request):
@@ -34,7 +34,7 @@ def index(request):
                     "member_tribes": member_tribes,
                     "discover_tribes": discover_tribes}
         return render(request,"app/index.html",context)
-        
+
     else:
         tribes = Tribe.objects.order_by("created_at")
         context={"tribes":tribes}
@@ -43,6 +43,12 @@ def index(request):
 
 def tribe(request,tribe_id):
     tribe = get_object_or_404(Tribe,pk=tribe_id)
+    profiles = Profile.objects.all()
+    tribe_members_id = []
+    for profile in profiles:
+        if tribe in profile.tribes.all():
+            tribe_members_id.append(profile.id)
+        
     if request.user.is_authenticated:
         if tribe in request.user.profile.tribes.all(): 
             is_member = True
@@ -52,7 +58,9 @@ def tribe(request,tribe_id):
         is_member = True
         
     playlists = Playlist.objects.filter(tribe=tribe)
-    context={"tribe":tribe, 
+    tribe_members = Profile.objects.filter(id__in=tribe_members_id)
+    context={"tribe":tribe,
+            "tribe_members":tribe_members, 
             "playlists":playlists,
             "is_member":is_member
             }
