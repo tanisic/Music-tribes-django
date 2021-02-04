@@ -112,7 +112,7 @@ def create_playlist(request,tribe_id):
             saved_playlist.creator = request.user
             saved_playlist.tribe = tribe
             saved_playlist.save()
-            return HttpResponseRedirect(reverse('app:playlist',args=(tribe.id,saved_playlist.id,)))
+            return HttpResponseRedirect(reverse('app:tribe',args=(tribe.id,)))
     else:
         form = PlaylistForm()
     context = {'form':form, 'action':'create',}

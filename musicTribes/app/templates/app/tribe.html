@@ -1,47 +1,77 @@
 {% extends 'app/base.html' %}
 {% block content %}
-{% if user.is_authenticated%}
-    {% if user.username != tribe.created_by and not is_member %}
-        {% include 'includes/join_button.html' with tribe=tribe %}
-    {% elif user.username != tribe.created_by and is_member %}
-        {% include 'includes/leave_tribe_button.html' with tribe=tribe %}
-        <div class = "joined-container float-right">
-            <h2 style="display:inline;">Joined</h2>
-            <i class="fa fa-check" aria-hidden="true"></i>
-        </div>
-    {% endif %}
-{% endif %}
-{% include "includes/create_playlist_button.html " %}
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-2 d-flex ">
+            
+                {% if user.username != tribe.created_by and not is_member and user.is_authenticated %}
+                {% include 'includes/join_button.html' with tribe=tribe %}
+                {% endif %}
 
-<div class ="tribe-content row">
-    <h1>Chieftain: {{tribe.created_by}}</h1>
-    
-    <h1><br>Playlists</h1>
-    
-    {% for playlist in playlists %}
-        <div class = "col-md-9">
-            <a href="{% url 'app:playlist' tribe_id=tribe.id playlist_id=playlist.id %}"><h1>{{ playlist.name }}</h1></a>
-            <p>{{ playlist.description }}</p>
-            {% if user == playlist.creator or user.is_superuser or user == tribe.chieftain %}
-            {% include "includes/update_playlist_button.html" with playlist=playlist %}
-            {% include "includes/delete_playlist_button.html" with playlist=playlist %}
+                {% if user.username != tribe.created_by and is_member and user.is_authenticated %}
+                {% include 'includes/leave_tribe_button.html' with tribe=tribe %}
+                <div style="margin-right: 10px;"></div>
+                {% endif %}
+
+                {% if user.is_authenticated and is_member %}
+                {% include "includes/create_playlist_button.html " %}
+                {% endif %}
+  
+        </div>
+        <div class="col-3 d-flex justify-content-center">
+            <h1 style="text-align:center;">{{ tribe.name }}</h1>
+        </div>
+        <div class="col-3 d-flex justify-content-center">
+            <h2 class="text-muted">Chieftain: {{ tribe.created_by }}</h2>
+        </div>
+        <div class="col-4 ">
+            {% if user.username != tribe.created_by and is_member and user.is_authenticated %}
+            <div class = "joined-container float-right" style="display:inline;">
+                <h2 style="display:inline;">Joined</h2>
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </div>
             {% endif %}
         </div>
-    
-    {%empty%}
-    <h5 class="text-muted">Nothing here yet.</h5>
-    {% endfor %}
-    <div class="col-md-3"
-    <h1>Members</h1>
-    {% for tribe_member in tribe_members %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-2">
+        
+        <h1>Members</h1>
+        {% for tribe_member in tribe_members %}
         <div class="edit-user-header">
             <img class="avatar" src ="{{tribe_member.avatarurl}}"></img>
             <h2 style="display:inline;">{{tribe_member}}</h2>
         </div>
-    </div>
+    
         {%empty%}
         <h5 class="text-muted">This tribe has no members yet.</h5>
-    </div>
+    
     {% endfor %}
-</div>
+    </div>
+    <div class="col-7">
+        <h1>Playlists</h1>
+        
+        {% for playlist in playlists %}
+            
+            <div class="card bg-light text-dark">
+                <div class="card-body row">
+                    <div class="col-10">
+                        <a href="{% url 'app:playlist' tribe_id=tribe.id playlist_id=playlist.id %}"><h2>{{ playlist.name }}</h2></a>
+                        <p>{{ playlist.description }}</p>
+                    </div>
+                    <div class="col-2">
+                        {% if user == playlist.creator or user.is_superuser or user == tribe.chieftain %}
+                        {% include "includes/update_playlist_button.html" with playlist=playlist %}
+                        {% include "includes/delete_playlist_button.html" with playlist=playlist %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div> 
+                    {%empty%}
+                    <h5 class="text-muted">Nothing here yet.</h5>
+                    {% endfor %}                   
+                </div>  
+             </div>
 {% endblock %}

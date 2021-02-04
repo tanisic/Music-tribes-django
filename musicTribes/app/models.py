@@ -22,7 +22,8 @@ class TimeStamped(models.Model):
 class Tribe(TimeStamped):
     chieftain = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     name = models.CharField(unique=True,max_length=50,blank=False)
-    logourl =  models.CharField(max_length=1000,blank=False)
+    logourl =  models.CharField(max_length=1000,
+    default="http://localhost:8000/static/app/chieftain-logo.png")
     genre = models.CharField(max_length=100,blank=False)
 
     def author(self):
@@ -37,7 +38,7 @@ class Tribe(TimeStamped):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=1000, blank=True)
-    avatarurl =  models.CharField(max_length=500,blank=False)
+    avatarurl =  models.CharField(max_length=1000,default="https://icon-library.com/images/unknown-person-icon/unknown-person-icon-17.jpg")
     tribes = models.ManyToManyField(Tribe,blank=True)
 
     def __str__(self):
@@ -60,7 +61,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 class Playlist(TimeStamped):
     tribe = models.ForeignKey(Tribe,on_delete=models.CASCADE)
-    name = models.CharField(unique=True,blank=False,max_length=128)
+    name = models.CharField(unique=False,blank=False,max_length=128)
     creator = models.ForeignKey(User,on_delete=models.CASCADE,default=1)
     description = models.TextField(max_length=1000)
     
