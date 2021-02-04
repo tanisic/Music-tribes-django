@@ -42,13 +42,13 @@
         <h5 class="text-muted">You aren't a member of any tribes.</h5>
         {% endfor %}
         <h1>Discover tribes</h1>
-        {% for tribe in tribes%}
+        {% for discover_tribe in discover_tribes%}
         <div class="card bg-light text-dark">
             <div class="card-body">
-                <img class = "avatar" src="{{tribe.logourl}}"></img>
-                <a href="{% url 'app:tribe' tribe.id %}"><h1 style="display:inline;">{{ tribe.name }}</h1></a>
+                <img class = "avatar" src="{{discover_tribe.logourl}}"></img>
+                <a href="{% url 'app:tribe' discover_tribe.id %}"><h1 style="display:inline;">{{ discover_tribe.name }}</h1></a>
                 <img class="card-img float-right" src="{% static 'app/chieftain-logo.png' %}" alt="Card image">
-                <h4 class ="float-right" style="display:inline;">created by: {{tribe.created_by}}</h4>
+                <h4 class ="float-right" style="display:inline;">created by: {{discover_tribe.created_by}}</h4>
             </div>
         </div>
         {%empty%}

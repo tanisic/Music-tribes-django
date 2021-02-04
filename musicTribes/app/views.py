@@ -12,6 +12,7 @@ def index(request):
         for tribe in tribes:
             if tribe.chieftain == request.user:
                 chieftain_tribes_id.append(tribe.id)
+
         chieftain_tribes = Tribe.objects.filter(id__in = chieftain_tribes_id)
 
         member_tribes_id = []
@@ -20,14 +21,20 @@ def index(request):
                 if tribe == user_tribe:
                     member_tribes_id.append(tribe.id)
 
-
         member_tribes = Tribe.objects.filter(id__in = member_tribes_id)
 
-        general_tribes = tribes
+        discover_tribes_id =[]
+        for tribe in tribes:
+            if not tribe.id in chieftain_tribes_id and not tribe.id in member_tribes_id:
+                discover_tribes_id.append(tribe.id)
+        
+        discover_tribes = Tribe.objects.filter(id__in = discover_tribes_id)
+
         context = {"chieftain_tribes":chieftain_tribes,
                     "member_tribes": member_tribes,
-                    "general_tribes": general_tribes}
+                    "discover_tribes": discover_tribes}
         return render(request,"app/index.html",context)
+        
     else:
         tribes = Tribe.objects.order_by("created_at")
         context={"tribes":tribes}
