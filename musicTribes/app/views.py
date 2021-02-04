@@ -6,10 +6,33 @@ from .models import Playlist, Tribe, Song
 
 # Create your views here.
 def index(request):
-    tribes = Tribe.objects.order_by("created_at")
-    context={"tribes":tribes}
+    if request.user.is_authenticated:
+        tribes = Tribe.objects.order_by("created_at")
+        chieftain_tribes_id = []
+        for tribe in tribes:
+            if tribe.chieftain == request.user:
+                chieftain_tribes_id.append(tribe.id)
+        chieftain_tribes = Tribe.objects.filter(id__in = chieftain_tribes_id)
 
-    return render(request,"app/index.html",context)
+        member_tribes_id = []
+        for tribe in tribes:
+            for user_tribe in request.user.profile.tribes.all():
+                if tribe == user_tribe:
+                    member_tribes_id.append(tribe.id)
+
+
+        member_tribes = Tribe.objects.filter(id__in = member_tribes_id)
+
+        general_tribes = tribes
+        context = {"chieftain_tribes":chieftain_tribes,
+                    "member_tribes": member_tribes,
+                    "general_tribes": general_tribes}
+        return render(request,"app/index.html",context)
+    else:
+        tribes = Tribe.objects.order_by("created_at")
+        context={"tribes":tribes}
+
+        return render(request,"app/index.html",context)
 
 def tribe(request,tribe_id):
     tribe = get_object_or_404(Tribe,pk=tribe_id)
@@ -20,6 +43,7 @@ def tribe(request,tribe_id):
             is_member = False
     else:
         is_member = True
+        
     playlists = Playlist.objects.filter(tribe=tribe)
     context={"tribe":tribe, 
             "playlists":playlists,
