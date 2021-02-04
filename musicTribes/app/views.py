@@ -14,8 +14,9 @@ def index(request):
 def tribe(request,tribe_id):
     tribe = get_object_or_404(Tribe,pk=tribe_id)
     is_member = False
-    if tribe in request.user.profile.tribes.all(): 
-        is_member = True
+    if request.user.is_authenticated:
+        if tribe in request.user.profile.tribes.all(): 
+            is_member = True
     playlists = Playlist.objects.filter(tribe=tribe)
     context={"tribe":tribe, 
             "playlists":playlists,
