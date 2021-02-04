@@ -102,26 +102,30 @@ def update_tribe(request, tribe_id):
     return render(request, 'app/update_tribe.html', context)
 
 
-def create_playlist(request):
+def create_playlist(request,tribe_id):
+    tribe = Tribe.objects.filter(pk=tribe_id).first()
     if request.method == 'POST' and request.user.is_authenticated:
         form = PlaylistForm(request.POST)
+        
         if form.is_valid():
             saved_playlist = form.save(commit=False)
             saved_playlist.creator = request.user
+            saved_playlist.tribe = tribe
             saved_playlist.save()
-            return HttpResponseRedirect(reverse('app:playlist',args=(saved_playlist.tribe.id,saved_playlist.id,)))
+            return HttpResponseRedirect(reverse('app:playlist',args=(tribe.id,saved_playlist.id,)))
     else:
         form = PlaylistForm()
-    context = {'form':form, 'action':'create'}
+    context = {'form':form, 'action':'create',}
     return render(request,'app/create_playlist.html',context)
 
 def create_song(request,playlist_id):
+    playlist = Playlist.objects.filter(pk=playlist_id).first()
     if request.method == 'POST' and request.user.is_authenticated:
         form = SongForm(request.POST)
         if form.is_valid():
             saved_song = form.save(commit=False)
             saved_song.creator = request.user
-            saved_song.playlist = get_object_or_404(Playlist,pk=playlist_id)
+            saved_song.playlist = playlist
             saved_song.save()
             tribe = saved_song.playlist.tribe         
             return HttpResponseRedirect(reverse('app:playlist',args=(tribe.id,playlist_id)))
