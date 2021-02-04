@@ -4,7 +4,11 @@
     {% if user.username != tribe.created_by and not is_member %}
         {% include 'includes/join_button.html' with tribe=tribe %}
     {% elif user.username != tribe.created_by and is_member %}
-        <h2 class ="float-right">Joined</h2>
+        <div class = "joined-container float-right">
+            <h2 style="display:inline;">Joined</h2>
+            <i class="fa fa-check" aria-hidden="true"></i>
+        </div>
+
     {% endif %}
 {% endif %}
 <a href="{% url 'app:create_playlist' %}">Create New Playlist</a>
