@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 class TimeStamped(models.Model):
     created_at = models.DateTimeField(editable=False)
     updated_at = models.DateTimeField(editable=False)
@@ -23,6 +24,7 @@ class Tribe(TimeStamped):
     name = models.CharField(unique=True,max_length=50,blank=False)
     logourl =  models.CharField(max_length=1000,blank=False)
     genre = models.CharField(max_length=100,blank=False)
+
     def author(self):
         return self.chieftain
 
@@ -70,6 +72,7 @@ class Song(TimeStamped):
     title = models.CharField(blank=False,max_length=200)
     creator = models.ForeignKey(User,on_delete=models.CASCADE)
     playlist = models.ForeignKey(Playlist,on_delete=models.CASCADE)
+
     def __str__(self):
         return self.title
 

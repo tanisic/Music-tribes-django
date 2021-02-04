@@ -1,0 +1,6 @@
+<div>
+    <form action="{% url 'app:update_playlist' playlist.id %}" method="POST" role="form" class="form-inline float-left">
+        {% csrf_token %}
+        <input type="submit" value="Update Playlist" class="btn btn-info"/>
+    </form>
+</div>

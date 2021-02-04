@@ -13,17 +13,21 @@
 {% endif %}
 {% include "includes/create_playlist_button.html " %}
 
-<div class ="tribe-content">
-    <h1>Chieftain</h1>
-    <h3>{{tribe.created_by}}</h3>
+<div class ="tribe-content row">
+    <h1>Chieftain is: {{tribe.created_by}}</h1>
     
-    <h1>Playlists</h1>
+    <h1><br>Playlists</h1>
+    
     {% for playlist in playlists %}
-        <a href="{% url 'app:playlist' tribe_id=tribe.id playlist_id=playlist.id %}"><h1>{{ playlist.name }}</h1></a>
-        <p>{{ playlist.description }}</p>
-         {% if user == playlist.creator or user.is_superuser or user == tribe.chieftain %}
-        {% include "includes/delete_playlist_button.html" with playlist=playlist %}
-        {% endif %}
+        <div class = "col-md-9">
+            <a href="{% url 'app:playlist' tribe_id=tribe.id playlist_id=playlist.id %}"><h1>{{ playlist.name }}</h1></a>
+            <p>{{ playlist.description }}</p>
+            {% if user == playlist.creator or user.is_superuser or user == tribe.chieftain %}
+            {% include "includes/update_playlist_button.html" with playlist=playlist %}
+            {% include "includes/delete_playlist_button.html" with playlist=playlist %}
+            {% endif %}
+        </div>
+    
     {%empty%}
     <h5 class="text-muted">Nothing here yet.</h5>
     {% endfor %}

@@ -90,7 +90,7 @@ def create_tribe(request):
 def update_tribe(request, tribe_id):
     
     tribe = get_object_or_404(Tribe, pk=tribe_id)
-    if request.method == 'POST' and (tribe.chieftain == request.user):
+    if request.method == 'POST' and tribe.chieftain == request.user:
         form = TribeForm(request.POST, instance = tribe)
         if form.is_valid():
             saved_tribe = form.save()
@@ -151,3 +151,16 @@ def delete_playlist(request,playlist_id):
     if request.user == playlist.creator or request.user == playlist.tribe.chieftain or request.user.is_superuser:
         playlist.delete()
     return HttpResponseRedirect(reverse('app:tribe',args=(tribe_id,)))
+
+def update_playlist(request,playlist_id):
+    playlist = Playlist.objects.filter(pk=playlist_id).first()
+    if request.method == 'POST' and playlist.tribe.chieftain == request.user:
+        form = PlaylistForm(request.POST, instance = playlist)
+        if form.is_valid():
+            saved_playlist = form.save()
+            return HttpResponseRedirect(reverse('app:playlist', args=(saved_playlist.tribe.id,saved_playlist.id,)))
+    else:
+        form = PlaylistForm(instance=playlist)
+        
+    context = { 'form':form, 'action':'update', }
+    return render(request, 'app/update_playlist.html', context)
