@@ -18,7 +18,7 @@ class EditUserForm(forms.ModelForm):
 class EditProfileForm(forms.ModelForm):
     class Meta:
         model=Profile
-        fields=('avatarurl','bio')
+        fields=('avatarurl','avatar_img','bio')
     
 class ChangePasswordForm(UserCreationForm):
     class Meta:

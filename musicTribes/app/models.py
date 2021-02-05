@@ -40,6 +40,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=1000, blank=True)
     avatarurl =  models.CharField(max_length=1000,default="https://icon-library.com/images/unknown-person-icon/unknown-person-icon-17.jpg")
     tribes = models.ManyToManyField(Tribe,blank=True)
+    avatar_img = models.ImageField(upload_to='images',blank = True) 
 
     def __str__(self):
         return self.user.username

@@ -11,6 +11,7 @@ from django.db import transaction
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from app.models import Profile
 
 
 #class SignUpView(generic.CreateView):
@@ -21,7 +22,6 @@ from django.contrib.auth import login
 def signup(request):
     if request.method == 'POST':
         user_form = ExtendedUserCreationForm(request.POST)
-        profile_form=EditProfileForm(request.POST)
         if user_form.is_valid():
             user_form.save()
             username = user_form.cleaned_data.get('username')
@@ -31,6 +31,7 @@ def signup(request):
             return redirect('app:index')
     else:
         user_form = ExtendedUserCreationForm()
+
     return render(request, 'registration/signup.html', {'form': user_form})
     
 # Create your views here.
@@ -65,7 +66,7 @@ def editprofile(request):
 
 def extendededit(request):
     if request.method=='POST':
-        form=EditProfileForm(request.POST, instance=request.user.profile)
+        form=EditProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
         if form.is_valid():
             form.save()
@@ -73,9 +74,8 @@ def extendededit(request):
         else:
             return HttpResponseRedirect(reverse('accounts:extendededit'))
     else:
-        form=EditProfileForm(instance=request.user.profile)
-        context = {}
-        context['form']=form
+        form=EditProfileForm()
+        context = {"form":form}
         return render(request,'app/extendededit.html',context)
 
 

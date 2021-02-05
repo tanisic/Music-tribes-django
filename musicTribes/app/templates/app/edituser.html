@@ -3,7 +3,12 @@
 {% block content %}
     <div class="edit-user-header">
         <h1>{{user.username}}</h1>
-        <img class="avatar" src ="{{profile.avatarurl}}"></img>
+        {% if profile.avatar_img %}
+            <img class="avatar" src ="{{profile.avatar_img.url}}"></img>
+        {% else %}
+            <p>pa jesam</p>
+            <img class="avatar" src ="{{profile.avatarurl}}"></img>
+        {% endif %}
     </div>
     <a href="{%url 'accounts:changepassword' %}">Change password</a>
     <a href="{%url 'accounts:extendededit' %}">Change bio and avatar</a>
