@@ -74,7 +74,7 @@
                         <p>{{ playlist.description }}</p>
                     </div>
                     <div class="col-2">
-                        {% if user == playlist.creator or user.is_superuser or user == tribe.chieftain %}
+                        {% if user == playlist.creator.user or user.is_superuser or user == tribe.chieftain %}
                         {% include "includes/update_playlist_button.html" with playlist=playlist %}
                         {% include "includes/delete_playlist_button.html" with playlist=playlist %}
                         {% endif %}
