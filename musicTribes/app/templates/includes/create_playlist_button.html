@@ -1,5 +1,5 @@
 <div>
-    <form action="{% url 'app:create_playlist' tribe_id=tribe.id %}" method="POST" role="form" class="">
+    <form action="{% url 'app:create_playlist' tribe_id=tribe.id %}" method="POST" role="form">
         {% csrf_token %}
         <input type="submit" value="Create Playlist" class="btn btn-info"/>
     </form>
