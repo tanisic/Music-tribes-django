@@ -2,8 +2,7 @@ from django.db import models
 from django.db.models import constraints
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from accounts.models import Profile
 
 class TimeStamped(models.Model):
     created_at = models.DateTimeField(editable=False)
@@ -20,59 +19,38 @@ class TimeStamped(models.Model):
         abstract = True
 
 class Tribe(TimeStamped):
-    chieftain = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    chieftain = models.ForeignKey(Profile, on_delete=models.CASCADE, default=1)
     name = models.CharField(unique=True,max_length=50,blank=False)
-    logourl =  models.CharField(max_length=1000,
-    default="http://localhost:8000/static/app/chieftain-logo.png")
+    logourl =  models.CharField(max_length=1000,default="https://image.shutterstock.com/image-vector/hand-drawn-tribal-label-textured-260nw-471977746.jpg",blank=False)
+    logo_img = models.ImageField(upload_to='images/tribes',blank = True) 
     genre = models.CharField(max_length=100,blank=False)
 
     def author(self):
         return self.chieftain
 
     def created_by(self):
-        return self.chieftain.username
+        return self.chieftain.user.username
     
     def __str__(self):
         return self.name
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=1000, blank=True)
-    avatarurl =  models.CharField(max_length=1000,default="https://icon-library.com/images/unknown-person-icon/unknown-person-icon-17.jpg")
-    tribes = models.ManyToManyField(Tribe,blank=True)
-    avatar_img = models.ImageField(upload_to='images',blank = True) 
-
-    def __str__(self):
-        return self.user.username
-
-    
-
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
-
-
 
 
 class Playlist(TimeStamped):
     tribe = models.ForeignKey(Tribe,on_delete=models.CASCADE)
     name = models.CharField(unique=False,blank=False,max_length=128)
-    creator = models.ForeignKey(User,on_delete=models.CASCADE,default=1)
+    creator = models.ForeignKey(Profile,on_delete=models.CASCADE,default=1)
     description = models.TextField(max_length=1000)
     
     def __str__(self):
         return self.name
 
+    def created_by(self):
+        return self.chieftain.user.username
+
 class Song(TimeStamped):
     url = models.CharField(max_length=60,unique=False,blank=False)
     title = models.CharField(blank=False,max_length=200)
-    creator = models.ForeignKey(User,on_delete=models.CASCADE)
+    creator = models.ForeignKey(Profile,on_delete=models.CASCADE)
     playlist = models.ForeignKey(Playlist,on_delete=models.CASCADE)
 
     def __str__(self):
@@ -81,13 +59,13 @@ class Song(TimeStamped):
 
 
 class Comment(TimeStamped):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile,on_delete=models.CASCADE)
     playlist = models.ForeignKey(Playlist,on_delete=models.CASCADE)
     text = models.TextField(blank=False)
 
 class Like(TimeStamped):
     song = models.ForeignKey(Song,on_delete=models.CASCADE)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile,on_delete=models.CASCADE)
     like = models.BooleanField(null=False,default=True)
 
     class Meta:

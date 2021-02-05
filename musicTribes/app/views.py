@@ -10,7 +10,7 @@ def index(request):
         tribes = Tribe.objects.order_by("created_at")
         chieftain_tribes_id = []
         for tribe in tribes:
-            if tribe.chieftain == request.user:
+            if tribe.chieftain == request.user.profile:
                 chieftain_tribes_id.append(tribe.id)
 
         chieftain_tribes = Tribe.objects.filter(id__in = chieftain_tribes_id)
@@ -76,10 +76,11 @@ def playlist(request,tribe_id,playlist_id):
 
 def create_tribe(request):
     if request.method == 'POST' and request.user.is_authenticated:
-        form = TribeForm(request.POST)
+        form = TribeForm(request.POST, request.FILES)
+        form.fields['logourl'].initial ="https://i.pinimg.com/originals/44/e5/6f/44e56f6eb0888ac03af36df69cd6f031.png"
         if form.is_valid():
             saved_tribe = form.save(commit=False)
-            saved_tribe.chieftain = request.user
+            saved_tribe.chieftain = request.user.profile
             saved_tribe.save()
             return HttpResponseRedirect(reverse('app:tribe',args=(saved_tribe.id,)))
     else:
@@ -90,7 +91,7 @@ def create_tribe(request):
 def update_tribe(request, tribe_id):
     
     tribe = get_object_or_404(Tribe, pk=tribe_id)
-    if request.method == 'POST' and tribe.chieftain == request.user:
+    if request.method == 'POST' and tribe.chieftain == request.user.profile:
         form = TribeForm(request.POST, instance = tribe)
         if form.is_valid():
             saved_tribe = form.save()
@@ -109,7 +110,7 @@ def create_playlist(request,tribe_id):
         
         if form.is_valid():
             saved_playlist = form.save(commit=False)
-            saved_playlist.creator = request.user
+            saved_playlist.creator = request.user.profile
             saved_playlist.tribe = tribe
             saved_playlist.save()
             return HttpResponseRedirect(reverse('app:tribe',args=(tribe.id,)))
@@ -124,7 +125,7 @@ def create_song(request,playlist_id):
         form = SongForm(request.POST)
         if form.is_valid():
             saved_song = form.save(commit=False)
-            saved_song.creator = request.user
+            saved_song.creator = request.user.profile
             saved_song.playlist = playlist
             saved_song.save()
             tribe = saved_song.playlist.tribe         
@@ -148,13 +149,13 @@ def join(request,tribe_id):
 def delete_playlist(request,playlist_id):
     playlist = Playlist.objects.filter(pk=playlist_id).first()
     tribe_id = playlist.tribe.id
-    if request.user == playlist.creator or request.user == playlist.tribe.chieftain or request.user.is_superuser:
+    if request.user.profile == playlist.creator or request.user.profile == playlist.tribe.chieftain or request.user.is_superuser:
         playlist.delete()
     return HttpResponseRedirect(reverse('app:tribe',args=(tribe_id,)))
 
 def update_playlist(request,playlist_id):
     playlist = Playlist.objects.filter(pk=playlist_id).first()
-    if request.method == 'POST' and playlist.tribe.chieftain == request.user:
+    if request.method == 'POST' and playlist.tribe.chieftain == request.user.profile:
         form = PlaylistForm(request.POST, instance = playlist)
         if form.is_valid():
             saved_playlist = form.save()

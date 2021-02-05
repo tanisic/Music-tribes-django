@@ -5,9 +5,17 @@
     {% for tribe in tribes %}    
         <div class="card bg-light text-dark">
             <div class="card-body">
-                <img class = "avatar" src="{{tribe.logourl}}"></img>
+                {%if tribe.logo_img%}
+                    <img class = "avatar" src="{{tribe.logo_img.url}}"></img>
+                {% else %}
+                    <img class = "avatar" src="{{tribe.logourl}}"></img>
+                {% endif%}
                 <a href="{% url 'app:tribe' tribe.id %}"><h1 style="display:inline;">{{ tribe.name }}</h1></a>
-                <img class="card-img float-right" src="{% static 'app/chieftain-logo.png' %}" alt="Card image">
+                {% if tribe.author.avatar_img %}
+                    <img class="card-img float-right" src="{{tribe.author.avatar_img.url}}" alt="Card image">
+                {% else %}
+                    <img class="card-img float-right" src="{{tribe.author.avatarurl}}" alt="Card image">
+                {% endif %}
                 <h4 class ="float-right" style="display:inline;">created by: {{tribe.created_by}}</h4>
                 
             </div>
@@ -18,9 +26,17 @@
     {%for chieftain_tribe in chieftain_tribes%}
         <div class="card bg-light text-dark">
             <div class="card-body">
-                <img class = "avatar" src="{{chieftain_tribe.logourl}}"></img>
+                {%if chieftain_tribe.logo_img%}
+                    <img class = "avatar" src="{{chieftain_tribe.logo_img.url}}"></img>
+                {% else %}
+                    <img class = "avatar" src="{{chieftain_tribe.logourl}}"></img>
+                {% endif%}
                 <a href="{% url 'app:tribe' chieftain_tribe.id %}"><h1 style="display:inline;">{{ chieftain_tribe.name }}</h1></a>
-                <img class="card-img float-right" src="{% static 'app/chieftain-logo.png' %}" alt="Card image">
+                {% if chieftain_tribe.author.avatar_img %}
+                    <img class="card-img float-right" src="{{chieftain_tribe.author.avatar_img.url}}" alt="Card image">
+                {% else %}
+                    <img class="card-img float-right" src="{{chieftain_tribe.author.avatarurl}}" alt="Card image">
+                {% endif %}
                 <h4 class ="float-right" style="display:inline;">created by: {{chieftain_tribe.created_by}}</h4>
                 
             </div>
@@ -32,9 +48,17 @@
         {% for member_tribe in member_tribes%}
         <div class="card bg-light text-dark">
             <div class="card-body">
-                <img class = "avatar" src="{{member_tribe.logourl}}"></img>
+                {%if member_tribe.logo_img%}
+                    <img class = "avatar" src="{{member_tribe.logo_img.url}}"></img>
+                {% else %}
+                    <img class = "avatar" src="{{member_tribe.logourl}}"></img>
+                {% endif%}
                 <a href="{% url 'app:tribe' member_tribe.id %}"><h1 style="display:inline;">{{ member_tribe.name }}</h1></a>
-                <img class="card-img float-right" src="{% static 'app/chieftain-logo.png' %}" alt="Card image">
+                {% if member_tribe.author.avatar_img %}
+                    <img class="card-img float-right" src="{{member_tribe.author.avatar_img.url}}" alt="Card image">
+                {% else %}
+                    <img class="card-img float-right" src="{{member_tribe.author.avatarurl}}" alt="Card image">
+                {% endif %}
                 <h4 class ="float-right" style="display:inline;">created by: {{member_tribe.created_by}}</h4>
             </div>
         </div>
@@ -45,9 +69,17 @@
         {% for discover_tribe in discover_tribes%}
         <div class="card bg-light text-dark">
             <div class="card-body">
-                <img class = "avatar" src="{{discover_tribe.logourl}}"></img>
+                {%if dicover_tribe.logo_img%}
+                    <img class = "avatar" src="{{discover_tribe.logo_img.url}}"></img>
+                {% else %}
+                    <img class = "avatar" src="{{discover_tribe.logourl}}"></img>
+                {% endif%}
                 <a href="{% url 'app:tribe' discover_tribe.id %}"><h1 style="display:inline;">{{ discover_tribe.name }}</h1></a>
-                <img class="card-img float-right" src="{% static 'app/chieftain-logo.png' %}" alt="Card image">
+                {% if discover_tribe.author.avatar_img %}
+                    <img class="card-img float-right" src="{{discover_tribe.author.avatar_img.url}}" alt="Card image">
+                {% else %}
+                    <img class="card-img float-right" src="{{disover_tribe.author.avatarurl}}" alt="Card image">
+                {% endif %}
                 <h4 class ="float-right" style="display:inline;">created by: {{discover_tribe.created_by}}</h4>
             </div>
         </div>

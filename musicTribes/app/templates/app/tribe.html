@@ -23,6 +23,11 @@
         </div>
         <div class="col-3 d-flex justify-content-center">
             <h2 class="text-muted">Chieftain: {{ tribe.created_by }}</h2>
+            {%if tribe.chieftain.avatar_img%}
+                <img class = "avatar" src="{{tribe.chieftain.avatar_img.url}}"></img>
+            {% else %}
+                <img class = "avatar" src="{{tribe.chieftainn.avatarurl}}"></img>
+            {% endif%}
         </div>
         <div class="col-4 ">
             {% if user.username != tribe.created_by and is_member and user.is_authenticated %}
@@ -41,7 +46,11 @@
         <h1>Members</h1>
         {% for tribe_member in tribe_members %}
         <div class="edit-user-header">
-            <img class="avatar" src ="{{tribe_member.avatarurl}}"></img>
+            {%if tribe_member.avatar_img%}
+                <img class = "avatar" src="{{tribe_member.avatar_img.url}}"></img>
+            {% else %}
+                <img class = "avatar" src="{{tribe_member.avatarurl}}"></img>
+            {% endif%}
             <h2 style="display:inline;">{{tribe_member}}</h2>
         </div>
     

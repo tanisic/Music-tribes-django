@@ -6,7 +6,6 @@
         {% if profile.avatar_img %}
             <img class="avatar" src ="{{profile.avatar_img.url}}"></img>
         {% else %}
-            <p>pa jesam</p>
             <img class="avatar" src ="{{profile.avatarurl}}"></img>
         {% endif %}
     </div>
@@ -21,4 +20,5 @@
             {%include 'includes/bs4_form.html' %}
             <div class="row">
             <div class="col-md-8 mx-auto"><input type="submit" value="Save" class="btn btn-primary"></div>
+        </form>
 {% endblock %}
