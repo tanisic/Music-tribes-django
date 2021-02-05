@@ -1,0 +1,6 @@
+<div>
+    <form action="{% url 'app:update_tribe' tribe.id %}" method="POST" role="form" class="form-inline float-left">
+        {% csrf_token %}
+        <input type="submit" value="Edit tribe" class="btn btn-info"/>
+    </form>
+</div>
