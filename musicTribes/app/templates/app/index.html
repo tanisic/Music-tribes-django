@@ -6,9 +6,9 @@
         <div class="card bg-light text-dark">
             <div class="card-body">
                 {%if tribe.logo_img%}
-                    <img class = "avatar" src="{{tribe.logo_img.url}}"></img>
+                    <img class = "tribe-logo" src="{{tribe.logo_img.url}}"></img>
                 {% else %}
-                    <img class = "avatar" src="{{tribe.logourl}}"></img>
+                    <img class = "tribe-logo" src="{{tribe.logourl}}"></img>
                 {% endif%}
                 <a href="{% url 'app:tribe' tribe.id %}"><h1 style="display:inline;">{{ tribe.name }}</h1></a>
                 {% if tribe.author.avatar_img %}
@@ -27,9 +27,9 @@
         <div class="card bg-light text-dark">
             <div class="card-body">
                 {%if chieftain_tribe.logo_img%}
-                    <img class = "avatar" src="{{chieftain_tribe.logo_img.url}}"></img>
+                    <img class = "tribe-logo" src="{{chieftain_tribe.logo_img.url}}"></img>
                 {% else %}
-                    <img class = "avatar" src="{{chieftain_tribe.logourl}}"></img>
+                    <img class = "tribe-logo" src="{{chieftain_tribe.logourl}}"></img>
                 {% endif%}
                 <a href="{% url 'app:tribe' chieftain_tribe.id %}"><h1 style="display:inline;">{{ chieftain_tribe.name }}</h1></a>
                 {% if chieftain_tribe.author.avatar_img %}
@@ -49,9 +49,9 @@
         <div class="card bg-light text-dark">
             <div class="card-body">
                 {%if member_tribe.logo_img%}
-                    <img class = "avatar" src="{{member_tribe.logo_img.url}}"></img>
+                    <img class = "tribe-logo" src="{{member_tribe.logo_img.url}}"></img>
                 {% else %}
-                    <img class = "avatar" src="{{member_tribe.logourl}}"></img>
+                    <img class = "tribe-logo" src="{{member_tribe.logourl}}"></img>
                 {% endif%}
                 <a href="{% url 'app:tribe' member_tribe.id %}"><h1 style="display:inline;">{{ member_tribe.name }}</h1></a>
                 {% if member_tribe.author.avatar_img %}
@@ -70,9 +70,9 @@
         <div class="card bg-light text-dark">
             <div class="card-body">
                 {%if dicover_tribe.logo_img%}
-                    <img class = "avatar" src="{{discover_tribe.logo_img.url}}"></img>
+                    <img class = "tribe-logo" src="{{discover_tribe.logo_img.url}}"></img>
                 {% else %}
-                    <img class = "avatar" src="{{discover_tribe.logourl}}"></img>
+                    <img class = "tribe-logo" src="{{discover_tribe.logourl}}"></img>
                 {% endif%}
                 <a href="{% url 'app:tribe' discover_tribe.id %}"><h1 style="display:inline;">{{ discover_tribe.name }}</h1></a>
                 {% if discover_tribe.author.avatar_img %}

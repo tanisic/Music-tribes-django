@@ -22,6 +22,11 @@
   
         </div>
         <div class="col-3 d-flex justify-content-center">
+            {%if tribe.logo_img%}
+                <img class = "tribe-logo" src="{{tribe.logo_img.url}}"></img>
+            {% else %}
+                <img class = "tribe-logo" src="{{tribe.logourl}}"></img>
+            {% endif%}
             <h1 style="text-align:center;">{{ tribe.name }}</h1>
         </div>
         <div class="col-3 d-flex justify-content-center">
