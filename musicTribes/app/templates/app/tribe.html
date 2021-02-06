@@ -92,25 +92,35 @@
             {% endfor %}                      
     </div>
 
-    <div class="col-2">
+    <div class="col-3">
+    <h1 style="text-align:center;">Chatbox</h1>
         <div class ="messages-container">
-            <h1>Messages</h1>
 
             {% for message in messages %}
-            <div class="card bg-secondary text-white">
-                <div class="card-body">
-                    <h5>{{message.text}}</h5>
-                </div>
+            <div class="card bg-basic">
+
+                    <p class="message">{{message.text}}</p>
+        
                 <div class="card-footer">
-                    
+                    {%if message.user.avatar_img%}
+                    <img class = "avatar-mini" src="{{message.user.avatar_img.url}}"></img>
+                    {% else %}
+                    <img class = "avatar-mini" src="{{message.user.avatarurl}}"></img>
+                    {% endif%}
+                    <p style="display:inline;">{{message.user}}, {{message.created_at}}</p>
+                    {%if tribe.chieftain == user.profile or user.is_superuser%}
+                    {% include 'includes/delete_message_button.html' with message=message%}
+                    {%endif%}
                 </div>
             </div> 
             {%empty%}
             <h5 class="text-muted">Nothing here yet.</h5>
             {% endfor %}  
-            {% if user.is_authenticated %}
-            <h2>Post a message</h2>   
-                <form action="{% url 'app:add_message' tribe.id %}" accept-charset="utf-8" method = "POST">
+        </div>
+        <div>
+        {% if user.is_authenticated %}
+            <h2 style="text-align:center;">Post a message</h2>   
+                <form action="{% url 'app:add_message' tribe.id %}" accept-charset="utf-8" method = "POST"  style="text-align:center;">
                         {% csrf_token %}
                         {% include 'includes/bs4_form.html' with form=form %}
                         <input type="submit" value="Post message" class="btn btn-primary">

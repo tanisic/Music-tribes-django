@@ -108,7 +108,7 @@ def update_tribe(request, tribe_id):
 
 def add_message(request,tribe_id):
     tribe= get_object_or_404(Tribe, pk=tribe_id)
-    form = MessageForm(request.POST,instance=tribe)
+    form = MessageForm(request.POST)
     if request.method == 'POST':  
         if form.is_valid():
             saved_message= form.save(commit=False)
@@ -217,3 +217,10 @@ def song(request,tribe_id,playlist_id,song_id):
             "tribe":tribe}
 
     return render(request,"app/playlist.html",context)
+
+def delete_message(request,tribe_id,message_id):
+    tribe = Tribe.objects.filter(pk=tribe_id).first()
+    message = Message.objects.filter(pk=message_id)
+    if request.user.profile == tribe.chieftain:
+        message.delete()
+    return HttpResponseRedirect(reverse('app:tribe',args=(tribe.id,)))

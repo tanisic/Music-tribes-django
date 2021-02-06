@@ -12,6 +12,7 @@ urlpatterns = [
     path('<int:tribe_id>/create_playlist', views.create_playlist, name='create_playlist'),
     path('<int:tribe_id>/update_tribe/', views.update_tribe, name='update_tribe'),
     path('<int:tribe_id>/add_message', views.add_message, name='add_message'),
+    path('<int:tribe_id>/delete_message/<int:message_id>', views.delete_message, name='delete_message'),
     path('<int:tribe_id>/playlist/<int:playlist_id>', views.playlist, name='playlist'),
     path('<int:song_id>/delete_song', views.delete_song, name='delete_song'),
     path('playlist/<int:playlist_id>/create_song', views.create_song, name='create_song'),

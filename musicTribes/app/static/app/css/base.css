@@ -8,6 +8,11 @@
     height:60px;
     border-radius: 50%;
 }
+.avatar-mini{
+    width:30px;
+    height:40px;
+    border-radius:50%;
+}
 .tribe-content{
     text-align:center;
 }
@@ -22,12 +27,16 @@
 }
 .messages-container{
     margin-top: 10px;
-    text-align:center;
     overflow-y: scroll;
-    position:fixed;
     border:solid black 1px;
     border-radius:10px;
-    height: 750px;
-    width: 700x;
-    max-width:700px; 
+    height: 400px;
+    width: 98%;
+}
+.message{
+    font-size: 1.2em;
+    margin-left:4px;
+}
+textarea{
+    max-height:50px;
 }
