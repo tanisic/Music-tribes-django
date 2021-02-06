@@ -1,4 +1,5 @@
 {% extends 'app/base.html' %}
+{% load static %}
 {% block content %}
 <div class="jumbotron">
     <div class="row">
@@ -103,14 +104,17 @@
         
                 <div class="card-footer">
                     {%if message.user.avatar_img%}
-                    <img class = "avatar-mini" src="{{message.user.avatar_img.url}}"></img>
+                        <img class = "avatar-mini" src="{{message.user.avatar_img.url}}"></img>
                     {% else %}
-                    <img class = "avatar-mini" src="{{message.user.avatarurl}}"></img>
-                    {% endif%}
-                    <p style="display:inline;">{{message.user}}, {{message.created_at}}</p>
-                    {%if tribe.chieftain == user.profile or user.is_superuser%}
-                    {% include 'includes/delete_message_button.html' with message=message%}
-                    {%endif%}
+                        <img class = "avatar-mini" src="{{message.user.avatarurl}}"></img>
+                    {% endif %}
+                        <p style="display:inline;">{{message.user}}, {{message.created_at}}</p>
+                    {% if tribe.chieftain == message.user %}
+                        <img src="{% static '/app/chieftain-logo.png' %}" width="20" height="20" alt="">
+                    {% endif %}
+                    {% if tribe.chieftain == user.profile or user.is_superuser%}
+                        {% include 'includes/delete_message_button.html' with message=message%}
+                    {% endif %}
                 </div>
             </div> 
             {%empty%}
@@ -132,4 +136,5 @@
 
 <!--#row-->
 </div>
+
 {% endblock %}
