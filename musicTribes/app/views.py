@@ -221,6 +221,6 @@ def song(request,tribe_id,playlist_id,song_id):
 def delete_message(request,tribe_id,message_id):
     tribe = Tribe.objects.filter(pk=tribe_id).first()
     message = Message.objects.filter(pk=message_id)
-    if request.user.profile == tribe.chieftain:
+    if request.user.profile == tribe.chieftain or request.user.is_superuser:
         message.delete()
     return HttpResponseRedirect(reverse('app:tribe',args=(tribe.id,)))
