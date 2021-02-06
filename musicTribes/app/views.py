@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from .models import Playlist, Tribe, Song, Profile
-
+from .utils import *
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
@@ -47,19 +47,13 @@ def tribe(request,tribe_id):
     tribe_members_id = []
     for profile in profiles:
         if tribe in profile.tribes.all():
-            tribe_members_id.append(profile.id)
-        
-    is_member=False
-    if request.user.is_authenticated:
-        if tribe in request.user.profile.tribes.all(): 
-            is_member = True
-        
+            tribe_members_id.append(profile.id)        
     playlists = Playlist.objects.filter(tribe=tribe)
     tribe_members = Profile.objects.filter(id__in=tribe_members_id)
     context={"tribe":tribe,
             "tribe_members":tribe_members, 
             "playlists":playlists,
-            "is_member":is_member
+            "is_member_of_tribe":is_member_of_tribe(request.user,tribe)
             }
 
     return render(request,"app/tribe.html",context)
@@ -71,7 +65,9 @@ def playlist(request,tribe_id,playlist_id):
     playlist = playlist[0]
     context={"playlist":playlist,
             "songs":songs,
-            "tribe":tribe}
+            "tribe":tribe,
+            "is_member_of_tribe": is_member_of_tribe(request.user,tribe)
+            }
 
     return render(request,"app/playlist.html",context)
 
@@ -155,10 +151,11 @@ def delete_playlist(request,playlist_id):
     return HttpResponseRedirect(reverse('app:tribe',args=(tribe_id,)))
 
 def delete_song(request,song_id):
+    
     song = Song.objects.filter(pk=song_id).first()
     playlist = song.playlist
     tribe = playlist.tribe
-    if request.user.profile == playlist.creator or request.user.profile == playlist.tribe.chieftain or request.user.is_superuser:
+    if request.user.profile == song.creator or request.user.profile == playlist.tribe.chieftain or request.user.is_superuser:
         song.delete()
     return HttpResponseRedirect(reverse('app:playlist',args=(tribe.id,playlist.id)))
 

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    {% if user == playlist.creator.user or user.is_superuser or user == tribe.chieftain or is_member %}
+    {% if is_member_of_tribe %}
     <div class="jumbotron d-flex">
         {% include "includes/add_song_button.html" with playlist=playlist %}
     </div>

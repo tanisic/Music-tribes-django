@@ -7,16 +7,16 @@
                 {% if user.username == tribe.created_by%}
                 {% include "includes/update_tribe_button.html" with playlist=playlist %}
                 {% endif %}
-                {% if user.username != tribe.created_by and not is_member and user.is_authenticated %}
+                {% if user.username != tribe.created_by and not is_member_of_tribe and user.is_authenticated %}
                 {% include 'includes/join_button.html' with tribe=tribe %}
                 {% endif %}
 
-                {% if user.username != tribe.created_by and is_member and user.is_authenticated %}
+                {% if user.username != tribe.created_by and is_member_of_tribe and user.is_authenticated %}
                 {% include 'includes/leave_tribe_button.html' with tribe=tribe %}
                 <div style="margin-right: 10px;"></div>
                 {% endif %}
 
-                {% if user.is_authenticated and is_member %}
+                {% if user.is_authenticated and is_member_of_tribe %}
                 {% include "includes/create_playlist_button.html " %}
                 {% endif %}
   
@@ -33,7 +33,7 @@
             {% endif%}
         </div>
         <div class="col-4 ">
-            {% if user.username != tribe.created_by and is_member and user.is_authenticated %}
+            {% if user.username != tribe.created_by and is_member_of_tribe and user.is_authenticated %}
             <div class = "joined-container float-right" style="display:inline;">
                 <h2 style="display:inline;">Joined</h2>
                 <i class="fa fa-check" aria-hidden="true"></i>
