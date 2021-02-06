@@ -20,3 +20,14 @@
     width:60px;
     height:50x;
 }
+.messages-container{
+    margin-top: 10px;
+    text-align:center;
+    overflow-y: scroll;
+    position:fixed;
+    border:solid black 1px;
+    border-radius:10px;
+    height: 750px;
+    width: 700x;
+    max-width:700px; 
+}

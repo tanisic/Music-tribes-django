@@ -1,4 +1,4 @@
-from .forms import TribeForm, PlaylistForm, SongForm
+from .forms import MessageForm, TribeForm, PlaylistForm,SongForm
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -49,6 +49,7 @@ def tribe(request,tribe_id):
         if tribe in profile.tribes.all():
             tribe_members_id.append(profile.id)        
     playlists = Playlist.objects.filter(tribe=tribe)
+    messages = Message.objects.filter(tribe=tribe)
     tribe_members = Profile.objects.filter(id__in=tribe_members_id)
     if request.user.is_authenticated:
         is_member = is_member_of_tribe(request.user,tribe)
@@ -57,7 +58,8 @@ def tribe(request,tribe_id):
     context={"tribe":tribe,
             "tribe_members":tribe_members, 
             "playlists":playlists,
-            "is_member_of_tribe": is_member
+            "is_member_of_tribe": is_member,
+            "messages" : messages
             }
 
     return render(request,"app/tribe.html",context)
@@ -102,6 +104,24 @@ def update_tribe(request, tribe_id):
         
     context = { 'form':form, 'action':'update', }
     return render(request, 'app/update_tribe.html', context)
+
+def add_message(request,tribe_id):
+    tribe= get_object_or_404(Tribe, pk=tribe_id)
+    form = MessageForm(request.POST)
+    if request.method == 'POST':  
+        if form.is_valid():
+            saved_message= form.save(commit=False)
+            saved_message.user = request.user.profile
+            saved_message.tribe = tribe
+            saved_message.save()
+            return HttpResponseRedirect(reverse('app:tribe', args=(saved_message.tribe.id,)))
+        else:
+            context = {'tribe':tribe,
+                        'form':form}
+            return render(request,'app/tribe.html',context)
+    else:
+        return HttpResponseRedirect(reverse('app:tribe',args=(tribe_id,)))
+    
 
 
 def create_playlist(request,tribe_id):

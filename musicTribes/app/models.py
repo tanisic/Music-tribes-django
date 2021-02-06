@@ -56,7 +56,10 @@ class Song(TimeStamped):
     def __str__(self):
         return self.title
 
-
+class Message(TimeStamped):
+    user = models.ForeignKey(Profile,on_delete=models.CASCADE)
+    tribe = models.ForeignKey(Tribe,on_delete=models.CASCADE)
+    text  = models.TextField(blank=False)
 
 class Comment(TimeStamped):
     user = models.ForeignKey(Profile,on_delete=models.CASCADE)
