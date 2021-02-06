@@ -50,10 +50,14 @@ def tribe(request,tribe_id):
             tribe_members_id.append(profile.id)        
     playlists = Playlist.objects.filter(tribe=tribe)
     tribe_members = Profile.objects.filter(id__in=tribe_members_id)
+    if request.user.is_authenticated:
+        is_member = is_member_of_tribe(request.user,tribe)
+    else:
+        is_member = False
     context={"tribe":tribe,
             "tribe_members":tribe_members, 
             "playlists":playlists,
-            "is_member_of_tribe":is_member_of_tribe(request.user,tribe)
+            "is_member_of_tribe": is_member
             }
 
     return render(request,"app/tribe.html",context)
