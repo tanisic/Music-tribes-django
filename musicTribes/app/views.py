@@ -59,7 +59,8 @@ def tribe(request,tribe_id):
             "tribe_members":tribe_members, 
             "playlists":playlists,
             "is_member_of_tribe": is_member,
-            "messages" : messages
+            "messages" : messages,
+            "form":MessageForm()
             }
 
     return render(request,"app/tribe.html",context)
@@ -107,7 +108,7 @@ def update_tribe(request, tribe_id):
 
 def add_message(request,tribe_id):
     tribe= get_object_or_404(Tribe, pk=tribe_id)
-    form = MessageForm(request.POST)
+    form = MessageForm(request.POST,instance=tribe)
     if request.method == 'POST':  
         if form.is_valid():
             saved_message= form.save(commit=False)
