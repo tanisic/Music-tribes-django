@@ -70,7 +70,8 @@ def playlist(request,tribe_id,playlist_id):
     songs = Song.objects.filter(playlist=playlist.first())
     playlist = playlist[0]
     context={"playlist":playlist,
-            "songs":songs}
+            "songs":songs,
+            "tribe":tribe}
 
     return render(request,"app/playlist.html",context)
 
@@ -153,6 +154,14 @@ def delete_playlist(request,playlist_id):
         playlist.delete()
     return HttpResponseRedirect(reverse('app:tribe',args=(tribe_id,)))
 
+def delete_song(request,song_id):
+    song = Song.objects.filter(pk=song_id).first()
+    playlist = song.playlist
+    tribe = playlist.tribe
+    if request.user.profile == playlist.creator or request.user.profile == playlist.tribe.chieftain or request.user.is_superuser:
+        song.delete()
+    return HttpResponseRedirect(reverse('app:playlist',args=(tribe.id,playlist.id)))
+
 def update_playlist(request,playlist_id):
     playlist = Playlist.objects.filter(pk=playlist_id).first()
     if request.method == 'POST' and playlist.tribe.chieftain == request.user.profile:
@@ -176,3 +185,13 @@ def leave(request,tribe_id):
     else:
         context = {"tribe":tribe}
         return render(request,"app/tribe.html",context)
+
+def song(request,tribe_id,playlist_id,song_id):
+    tribe = Tribe.objects.filter(pk=tribe_id).first()
+    playlist = Playlist.objects.filter(pk=playlist_id,tribe=tribe).first()
+    song = Song.objects.filter(playlist=playlist,pk=song_id).first()
+    context={"playlist":playlist,
+            "song":song,
+            "tribe":tribe}
+
+    return render(request,"app/playlist.html",context)

@@ -74,7 +74,7 @@ def extendededit(request):
         else:
             return HttpResponseRedirect(reverse('accounts:extendededit'))
     else:
-        form=EditProfileForm()
+        form=EditProfileForm(instance=request.user.profile)
         context = {"form":form}
         return render(request,'app/extendededit.html',context)
 
