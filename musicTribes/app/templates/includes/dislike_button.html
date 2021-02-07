@@ -1,0 +1,4 @@
+<form action="{% url 'app:like' song.id %}" method ="post" role="form">
+    {% csrf_token %}
+    <input type="submit" value="Dislike" class="btn btn-danger">
+</form>

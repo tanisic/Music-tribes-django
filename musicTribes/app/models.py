@@ -52,6 +52,10 @@ class Song(TimeStamped):
     title = models.CharField(blank=False,max_length=200)
     creator = models.ForeignKey(Profile,on_delete=models.CASCADE)
     playlist = models.ForeignKey(Playlist,on_delete=models.CASCADE)
+    likes = models.ManyToManyField(Profile, related_name='song_like')
+
+    def number_of_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.title
@@ -66,16 +70,4 @@ class Comment(TimeStamped):
     playlist = models.ForeignKey(Playlist,on_delete=models.CASCADE)
     text = models.TextField(blank=False)
 
-class Like(TimeStamped):
-    song = models.ForeignKey(Song,on_delete=models.CASCADE)
-    user = models.ForeignKey(Profile,on_delete=models.CASCADE)
-    like = models.BooleanField(null=False,default=True)
-
-    class Meta:
-        constraints=[
-            models.UniqueConstraint(name='user_like',fields=['user','song'])
-        ]
-
-    def liked(self):
-        return self.like
 

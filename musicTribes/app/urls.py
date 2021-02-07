@@ -15,6 +15,7 @@ urlpatterns = [
     path('<int:tribe_id>/delete_message/<int:message_id>', views.delete_message, name='delete_message'),
     path('<int:tribe_id>/playlist/<int:playlist_id>', views.playlist, name='playlist'),
     path('<int:song_id>/delete_song', views.delete_song, name='delete_song'),
+    path('<int:song_id>/like', views.like, name='like'),
     path('playlist/<int:playlist_id>/create_song', views.create_song, name='create_song'),
     path('playlist/<int:playlist_id>/update_playlist', views.update_playlist, name='update_playlist'),
     path('playlist/<int:playlist_id>/delete_playlist', views.delete_playlist, name='delete_playlist'),

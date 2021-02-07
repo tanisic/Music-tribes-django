@@ -69,6 +69,12 @@ def playlist(request,tribe_id,playlist_id):
     tribe = get_object_or_404(Tribe,pk = tribe_id)
     playlist = Playlist.objects.filter(tribe=tribe,pk=playlist_id)
     songs = Song.objects.filter(playlist=playlist.first())
+    songs_likes = []
+    for song in songs:
+        if user_liked_song(request.user,song):
+            songs_likes.append(True)
+        else:
+            songs_likes.append(False)
     playlist = playlist[0]
     if request.user.is_authenticated:
         is_member = is_member_of_tribe(request.user,tribe)
@@ -77,7 +83,8 @@ def playlist(request,tribe_id,playlist_id):
     context={"playlist":playlist,
             "songs":songs,
             "tribe":tribe,
-            "is_member_of_tribe": is_member
+            "is_member_of_tribe": is_member,
+            "songs_likes":songs_likes
             }
 
     return render(request,"app/playlist.html",context)
@@ -218,7 +225,8 @@ def song(request,tribe_id,playlist_id,song_id):
     song = Song.objects.filter(playlist=playlist,pk=song_id).first()
     context={"playlist":playlist,
             "song":song,
-            "tribe":tribe}
+            "tribe":tribe,
+            }
 
     return render(request,"app/playlist.html",context)
 
@@ -228,3 +236,25 @@ def delete_message(request,tribe_id,message_id):
     if request.user.profile == tribe.chieftain or request.user.is_superuser:
         message.delete()
     return HttpResponseRedirect(reverse('app:tribe',args=(tribe.id,)))
+
+def like(request,song_id):
+    song = Song.objects.filter(id=song_id).first()
+    playlist = song.playlist
+    tribe = playlist.tribe
+    profile = request.user.profile
+    if profile in song.likes.all():
+        song.likes.remove(profile)
+    else:
+        song.likes.add(profile)
+    return HttpResponseRedirect(reverse('app:playlist',args=(tribe.id,playlist.id)))
+
+def get_context_data(self, **kwargs):
+        data = get_context_data(**kwargs)
+
+        song_like = get_object_or_404(Song, id=self.kwargs['pk'])
+        liked = False
+        if song_like.likes.filter(id=self.request.user.profile.id).exists():
+            liked = True
+        data['number_of_likes'] = song_like.number_of_likes()
+        data['post_is_liked'] = liked
+        return data

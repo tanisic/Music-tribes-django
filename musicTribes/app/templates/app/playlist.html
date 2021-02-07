@@ -41,8 +41,19 @@
                 </div>
                 <div class="col-2">
                     {% if user == playlist.creator.user or user.is_superuser or user == tribe.chieftain or user.profile == song.creator%}
-                    {% include "includes/delete_song_button.html" with song=song %}
+                    <form action="{% url 'app:like' song.id %}" method="POST">
+                        {% csrf_token %}
+                    
+                        {% if post_is_liked %}
+                        <button type="submit" name="blogpost_id" value="{{object.id}}" class="btn btn-info">Unlike</button>
+                        {% else %}
+                        <button type="submit" name="blogpost_id" value="{{object.id}}" class="btn btn-info">Like</button>
+                        {% endif %}
+                      </form>
+                    {% else %}
+                      <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Log in to like this article!</a><br>
                     {% endif %}
+                    <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
                 </div>
             </div>
         </div> 
