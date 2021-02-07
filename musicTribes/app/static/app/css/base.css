@@ -28,10 +28,39 @@
 .messages-container{
     margin-top: 10px;
     overflow-y: scroll;
-    border:solid black 1px;
+    border:solid gray 1px;
     border-radius:10px;
     height: 400px;
     width: 98%;
+}
+.members-container{
+    border-right:solid gray 1px;
+    border-bottom:solid gray 1px;
+    margin-top: 5px;
+    
+    overflow-y: scroll;
+    height: 700px;
+}
+.songs-container{
+    width:50%;
+    margin-top:1%;
+}
+.description-container{
+    margin-left:1%;
+    margin-right:5%;
+    margin-top:1%;
+    border:solid gray 1px;
+    border-radius:10%;
+    width:30%;
+    min-height:400px;
+}
+.playlist-main-container{
+    display:flex;
+}
+#playlist-name{
+    text-align:center;
+    border-bottom:solid gray 2px;
+    border-radius:20%;
 }
 .message{
     font-size: 1.2em;

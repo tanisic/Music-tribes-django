@@ -1,31 +1,55 @@
 {% extends 'app/base.html' %}
-
+{%load static%}
 {% block content %}
 
-    {% if is_member_of_tribe %}
-    <div class="jumbotron d-flex">
-        {% include "includes/add_song_button.html" with playlist=playlist %}
-    </div>
-    {% endif %}  
+    
+<div class="jumbotron d-flex">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3">
+                {% if is_member_of_tribe %}
+                {% include "includes/add_song_button.html" with playlist=playlist %}
+                {% endif %} 
+            </div>
+            <div class="col-lg-7">
 
-
-
-
-{% for song in songs %}
-<div class="card bg-light text-dark">
-    <div class="card-body row">
-        <div class="col-10">
-            <a href="{{ song.url }}"><h2>{{ song.title }}</h2></a>
-            <p>Added by: {{ song.creator }}</p>
-        </div>
-        <div class="col-2">
-            {% if user == playlist.creator.user or user.is_superuser or user == tribe.chieftain or user.profile == song.creator%}
-            {% include "includes/delete_song_button.html" with song=song %}
-            {% endif %}
+            </div>
+            <div class="col-2">
+                <h4 class="text-muted">Created by: {{playlist.creator}}</h4>
+                <h6 class = "text-muted">{{playlist.created_at}}</h6>
+            </div>
         </div>
     </div>
-</div> 
-        {%empty%}
-        <h5 class="text-muted">Nothing here yet.</h5>
-        {% endfor %}                   
-{% endblock %}
+</div>
+<div class = "playlist-main-container">
+    <div class ="description-container">
+        <h1 id="playlist-name">{{playlist.name}}</h1>
+        <h5 style="display:inline;">Description: </h5>
+        <p style="display:inline;">{{playlist.description}}</p>
+    </div>
+
+
+
+    <div class ="songs-container">
+        <h1>Songs</h1>
+        {% for song in songs %}
+        <div class="card bg-light text-dark">
+            <div class="card-body row">
+                <div class="col-10">
+                    <a href="{{ song.url }}"><h2>{{ song.title }}</h2></a>
+                    <p>Added by: {{ song.creator }}</p>
+                </div>
+                <div class="col-2">
+                    {% if user == playlist.creator.user or user.is_superuser or user == tribe.chieftain or user.profile == song.creator%}
+                    {% include "includes/delete_song_button.html" with song=song %}
+                    {% endif %}
+                </div>
+            </div>
+        </div> 
+
+            {%empty%}
+            <h5 class="text-muted">Playlist is empty.</h5>
+            {% endfor %}                   
+    {% endblock %}
+    </div>
+</div>

@@ -70,10 +70,14 @@ def playlist(request,tribe_id,playlist_id):
     playlist = Playlist.objects.filter(tribe=tribe,pk=playlist_id)
     songs = Song.objects.filter(playlist=playlist.first())
     playlist = playlist[0]
+    if request.user.is_authenticated:
+        is_member = is_member_of_tribe(request.user,tribe)
+    else:
+        is_member = False
     context={"playlist":playlist,
             "songs":songs,
             "tribe":tribe,
-            "is_member_of_tribe": is_member_of_tribe(request.user,tribe)
+            "is_member_of_tribe": is_member
             }
 
     return render(request,"app/playlist.html",context)
