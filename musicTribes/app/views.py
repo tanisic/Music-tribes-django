@@ -53,8 +53,7 @@ def tribe(request,tribe_id):
     tribe_members = Profile.objects.filter(id__in=tribe_members_id)
     if request.user.is_authenticated:
         is_member = is_member_of_tribe(request.user,tribe)
-    else:
-        is_member = False
+
     context={"tribe":tribe,
             "tribe_members":tribe_members, 
             "playlists":playlists,
@@ -99,6 +98,9 @@ def create_tribe(request):
             saved_tribe = form.save(commit=False)
             saved_tribe.chieftain = request.user.profile
             saved_tribe.save()
+            profile = saved_tribe.chieftain
+            profile.tribes.add(saved_tribe)
+            profile.save()
             return HttpResponseRedirect(reverse('app:tribe',args=(saved_tribe.id,)))
     else:
         form = TribeForm()
