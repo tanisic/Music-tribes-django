@@ -198,12 +198,12 @@ def delete_song(request,song_id):
     return HttpResponseRedirect(reverse('app:playlist',args=(tribe.id,playlist.id)))
 
 def update_playlist(request,playlist_id):
-    playlist = Playlist.objects.filter(pk=playlist_id).first()
+    playlist = Playlist.objects.get(id=playlist_id)
     if request.method == 'POST' and playlist.tribe.chieftain == request.user.profile:
-        form = PlaylistForm(request.POST, instance = playlist)
+        form = PlaylistForm(request.POST,instance=playlist)
         if form.is_valid():
             saved_playlist = form.save()
-            return HttpResponseRedirect(reverse('app:playlist', args=(saved_playlist.tribe.id,saved_playlist.id,)))
+            return HttpResponseRedirect(reverse('app:tribe', args=(saved_playlist.tribe.id,)))
     else:
         form = PlaylistForm(instance=playlist)
         
