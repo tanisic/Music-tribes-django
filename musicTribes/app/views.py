@@ -59,7 +59,8 @@ def tribe(request,tribe_id):
             "playlists":playlists,
             "is_member_of_tribe": is_member,
             "messages" : messages,
-            "form":MessageForm()
+            "form":MessageForm(),
+            "is_chieftain": is_chieftain(request.user.profile,tribe)
             }
 
     return render(request,"app/tribe.html",context)
@@ -255,3 +256,17 @@ def likebtn(request,song_id):
                 like_obj.save()
 
     return HttpResponseRedirect(reverse('app:playlist',args=(tribe.id,playlist.id)))
+
+def kick(request,tribe_id,user_id):
+    tribe = Tribe.objects.get(id=tribe_id)
+    user = User.objects.get(id=user_id)
+    profile = user.profile
+    if request.method == 'POST' and is_chieftain(profile,tribe):
+        if request.user.profile == tribe.chieftain:
+            pass
+        else:
+            profile.tribes.remove(tribe)       
+        return HttpResponseRedirect(reverse('app:tribe',args=(tribe_id,)))
+    else:
+        context = {"tribe":tribe}
+        return render(request,"app/tribe.html",context)

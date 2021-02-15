@@ -63,6 +63,9 @@
                 <img class = "avatar" src="{{tribe_member.avatarurl}}"></img>
             {% endif%}
             <h2 style="display:inline;">{{tribe_member}}</h2>
+            {% if is_chieftain %}
+                {% include "includes/kick_member_button.html" with user=user %}
+            {% endif %}
         </div>
     
         {%empty%}
