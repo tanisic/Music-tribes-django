@@ -35,11 +35,15 @@
         {% for song,like,like_count in songs_with_likes %}
         <div class="card bg-light text-dark">
             <div class="card-body row">
-                <div class="col-10">
-                    <a href="{{ song.url }}"><h2>{{ song.title }}</h2></a>
-                    <p>Added by: {{ song.creator }}</p>
+                <div class="col-8">
+                    <h4>{{ song.artist }} - {{ song.title }} ({{song.minutes}}:{{song.seconds}})</h4>
                 </div>
-                <div class="col-2">
+                <div class="col-1">
+                    
+                    <a href="{{song.url}}" class="btn btn-info">Play</a>
+
+                </div>
+                <div class="col-3 d-flex justify-content-center">
                     {% if user == playlist.creator.user or user.is_superuser or user == tribe.chieftain or user.profile == song.creator%}
                     {% include "includes/delete_song_button.html" with song=song %}
                     {% endif %}
@@ -50,8 +54,10 @@
                         {% include "includes/like_button.html" with song=song %}
                         {% endif %}
                     {% endif %}   
+                    <h5 style="margin-left:3%;margin-top:3%;">{{ like_count }}</h5>
                 </div>
-                <p class="text-dark">Likes: {{ like_count }}</p>
+
+                
             </div>
         </div> 
 
