@@ -1,4 +1,4 @@
-from .forms import MessageForm, TribeForm, PlaylistForm,SongForm
+from .forms import MessageForm, TribeForm, PlaylistForm,SongForm, CommentForm
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -75,8 +75,10 @@ def playlist(request,tribe_id,playlist_id):
     tribe = get_object_or_404(Tribe,pk = tribe_id)
     playlist = Playlist.objects.filter(tribe=tribe,pk=playlist_id)
     songs = Song.objects.filter(playlist=playlist.first())
+    comments=Comment.objects.all()
     likes = []
     like_count = []
+
     for song in songs:
         like_count.append(like_count_song(song))
         if Like.objects.filter(song=song,user=request.user.profile).exists():
@@ -95,6 +97,8 @@ def playlist(request,tribe_id,playlist_id):
             "songs_with_likes":zip(songs,likes,like_count),
             "tribe":tribe,
             "is_member_of_tribe": is_member,
+            "comments":comments,
+            "form":CommentForm(),
             }
 
     return render(request,"app/playlist.html",context)
@@ -278,3 +282,22 @@ def kick(request,tribe_id,user_id):
     else:
         context = {"tribe":tribe}
         return render(request,"app/tribe.html",context)
+
+def add_comment(request,tribe_id,playlist_id,song_id):
+    tribe= get_object_or_404(Tribe, pk=tribe_id)
+    playlist =get_object_or_404(Playlist, pk=playlist_id)
+    song = get_object_or_404(Song, pk=song_id)
+    form = CommentForm(request.POST)
+    if request.method == 'POST':  
+        if form.is_valid():
+            saved_comment= form.save(commit=False)
+            saved_comment.user = request.user.profile
+            saved_comment.song = song
+            saved_comment.save()
+            return HttpResponseRedirect(reverse('app:playlist', args=(tribe.id,playlist.id,)))
+        else:
+            context = {'playlist':playlist,
+                'form':form}
+            return render(request,'app/playlist.html',context)
+    else:
+        return HttpResponseRedirect(reverse('app:playlist',args=(tribe_id,playlist_id,)))

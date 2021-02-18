@@ -47,6 +47,8 @@ class Playlist(TimeStamped):
     def created_by(self):
         return self.chieftain.user.username
 
+
+
 class Song(TimeStamped):
     url = models.CharField(max_length=200,unique=False,blank=False)
     title = models.CharField(blank=False,max_length=200)
@@ -55,9 +57,6 @@ class Song(TimeStamped):
     seconds = models.IntegerField(blank=False)
     creator = models.ForeignKey(Profile,on_delete=models.CASCADE)
     playlist = models.ForeignKey(Playlist,on_delete=models.CASCADE)
-    
-
-    
 
     def __str__(self):
         return self.title
@@ -69,7 +68,7 @@ class Message(TimeStamped):
 
 class Comment(TimeStamped):
     user = models.ForeignKey(Profile,on_delete=models.CASCADE)
-    playlist = models.ForeignKey(Playlist,on_delete=models.CASCADE)
+    song = models.ForeignKey(Song,on_delete=models.CASCADE)
     text = models.TextField(blank=False)
 
 class Like(TimeStamped):

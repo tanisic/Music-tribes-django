@@ -14,6 +14,10 @@ def like_count_song(song):
     likes_count = Like.objects.filter(song=song).count()
     return likes_count
 
+def comment_count_song(song):
+    comment_count = Comment.objects.filter(song=song).count()
+    return comment_count
+
 def is_chieftain(profile,tribe):
     if profile == tribe.chieftain:
         return True

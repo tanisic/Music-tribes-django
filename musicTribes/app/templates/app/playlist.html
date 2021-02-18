@@ -61,7 +61,34 @@
                 <div class="row">
                     <button class="btn btn-basic" id="btn-comments" onclick="showComments()">Toggle comments...</button>
                     <div class="comments">
-                        <h1>Hello</h1>
+                        {%for comment in comments%}
+                            {%if comment.song == song%}
+                                <div class="card bg-basic">
+                                    <p class="message">{{comment.text}}</p>
+                                    <div class="card-footer">
+                                        {%if comment.user.avatar_img%}
+                                            <img class = "avatar-mini" src="{{comment.user.avatar_img.url}}"></img>
+                                        {% else %}
+                                            <img class = "avatar-mini" src="{{comment.user.avatarurl}}"></img>
+                                        {% endif %}
+                                            <p style="display:inline;">{{comment.user}}, {{comment.created_at}}</p>
+                                        {% if tribe.chieftain == comment.user %}
+                                            <img src="{% static '/app/chieftain-logo.png' %}" width="20" height="20" alt="">
+                                        {% endif %}
+                                    </div>
+                                    {%endif%}
+                                
+                        {%endfor%}
+                            {% if user.is_authenticated %}
+                                <h5 style="text-align:center;">Comment: </h5>   
+                                    <form action="{% url 'app:add_comment' tribe_id=tribe.id playlist_id=playlist.id song_id=song.id %}" accept-charset="utf-8" method = "POST"  style="text-align:center;">
+                                            {% csrf_token %}
+                                            {% include 'includes/bs4_form.html' with form=form %}
+                                            <input type="submit" value="Post message" class="btn btn-primary">
+                                        
+                                    </form>
+                            {%endif%}
+                            </div>
                     </div>
                 </div>
             </div>
