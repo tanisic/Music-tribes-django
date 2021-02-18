@@ -15,7 +15,7 @@ class PlaylistForm(ModelForm):
 class SongForm(ModelForm):
     class Meta:
         model = Song
-        fields = ['title','url']
+        fields = ['artist','title','minutes','seconds','url']
 
 class MessageForm(ModelForm):
     class Meta:

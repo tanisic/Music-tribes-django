@@ -56,10 +56,9 @@ def tribe(request,tribe_id):
     else:
         is_member=False
 
+    is_chieftain_of_tribe = False
     if request.user.is_authenticated:
-        is_chieftain = is_chieftain(request.user.profile,tribe)
-    else:
-        is_chieftain=False
+        is_chieftain_of_tribe = is_chieftain(request.user.profile,tribe)
 
     context={"tribe":tribe,
             "tribe_members":tribe_members, 
@@ -67,7 +66,7 @@ def tribe(request,tribe_id):
             "is_member_of_tribe": is_member,
             "messages" : messages,
             "form":MessageForm(),
-            "is_chieftain": is_chieftain
+            "is_chieftain": is_chieftain_of_tribe
             }
 
     return render(request,"app/tribe.html",context)
@@ -86,10 +85,12 @@ def playlist(request,tribe_id,playlist_id):
             likes.append(False)
 
     playlist = playlist[0]
+
     if request.user.is_authenticated:
         is_member = is_member_of_tribe(request.user,tribe)
     else:
         is_member = False
+
     context={"playlist":playlist,
             "songs_with_likes":zip(songs,likes,like_count),
             "tribe":tribe,

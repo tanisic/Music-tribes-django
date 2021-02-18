@@ -50,6 +50,9 @@ class Playlist(TimeStamped):
 class Song(TimeStamped):
     url = models.CharField(max_length=60,unique=False,blank=False)
     title = models.CharField(blank=False,max_length=200)
+    artist = models.CharField(blank=False,max_length=200)
+    minutes = models.IntegerField()
+    seconds = models.IntegerField()
     creator = models.ForeignKey(Profile,on_delete=models.CASCADE)
     playlist = models.ForeignKey(Playlist,on_delete=models.CASCADE)
     
