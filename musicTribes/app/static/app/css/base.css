@@ -69,3 +69,10 @@
 textarea{
     max-height:50px;
 }
+.comments{
+    display:none;
+    width:100%;
+    border:solid 1px;
+    border-radius:10%;
+    border-color:#D8D8D8;
+}
