@@ -53,6 +53,13 @@ def tribe(request,tribe_id):
     tribe_members = Profile.objects.filter(id__in=tribe_members_id)
     if request.user.is_authenticated:
         is_member = is_member_of_tribe(request.user,tribe)
+    else:
+        is_member=False
+
+    if request.user.is_authenticated:
+        is_chieftain = is_chieftain(request.user.profile,tribe)
+    else:
+        is_chieftain=False
 
     context={"tribe":tribe,
             "tribe_members":tribe_members, 
@@ -60,7 +67,7 @@ def tribe(request,tribe_id):
             "is_member_of_tribe": is_member,
             "messages" : messages,
             "form":MessageForm(),
-            "is_chieftain": is_chieftain(request.user.profile,tribe)
+            "is_chieftain": is_chieftain
             }
 
     return render(request,"app/tribe.html",context)
