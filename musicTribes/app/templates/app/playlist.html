@@ -75,9 +75,12 @@
                                         {% if tribe.chieftain == comment.user %}
                                             <img src="{% static '/app/chieftain-logo.png' %}" width="20" height="20" alt="">
                                         {% endif %}
+                                        {% if user.is_superuser or user == tribe.chieftain or user.profile == comment.user%}
+                                        {% include "includes/delete_comment_button.html" with comment=comment %}
+                                        {% endif %}
                                     </div>
-                                    {%endif%}
-                                
+ 
+                            {%endif%}
                         {%endfor%}
                             {% if user.is_authenticated %}
                                 <h5 style="text-align:center;">Comment: </h5>   
@@ -89,6 +92,7 @@
                                     </form>
                             {%endif%}
                             </div>
+                            
                     </div>
                 </div>
             </div>

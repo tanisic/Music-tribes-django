@@ -304,3 +304,12 @@ def add_comment(request,tribe_id,playlist_id,song_id):
             return render(request,'app/playlist.html',context)
     else:
         return HttpResponseRedirect(reverse('app:playlist',args=(tribe_id,playlist_id,)))
+
+def delete_comment(request,comment_id):
+    
+    comment = Comment.objects.filter(pk=comment_id).first()
+    playlist = comment.song.playlist
+    tribe = playlist.tribe
+    if request.user.profile == comment.user or request.user.profile == playlist.tribe.chieftain or request.user.is_superuser:
+        comment.delete()
+    return HttpResponseRedirect(reverse('app:playlist',args=(tribe.id,playlist.id)))
