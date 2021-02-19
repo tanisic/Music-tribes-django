@@ -64,7 +64,7 @@
                         {%for comment in comments%}
                             {%if comment.song == song%}
                                 <div class="card bg-basic">
-                                    <p class="message">{{comment.text}}</p>
+                                    <p class="message" style="margin-left:2%;">{{comment.text}}</p>
                                     <div class="card-footer">
                                         {%if comment.user.avatar_img%}
                                             <img class = "avatar-mini" src="{{comment.user.avatar_img.url}}"></img>

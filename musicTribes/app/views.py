@@ -81,8 +81,11 @@ def playlist(request,tribe_id,playlist_id):
 
     for song in songs:
         like_count.append(like_count_song(song))
-        if Like.objects.filter(song=song,user=request.user.profile).exists():
-            likes.append(True)
+        if request.user.is_authenticated:
+            if Like.objects.filter(song=song,user=request.user.profile).exists():
+                likes.append(True)
+            else:
+                likes.append(False)
         else:
             likes.append(False)
 
@@ -137,7 +140,7 @@ def update_tribe(request, tribe_id):
 def add_message(request,tribe_id):
     tribe= get_object_or_404(Tribe, pk=tribe_id)
     form = MessageForm(request.POST)
-    if request.method == 'POST':  
+    if request.method == 'POST' and request.user.is_authenticated:  
         if form.is_valid():
             saved_message= form.save(commit=False)
             saved_message.user = request.user.profile
@@ -288,7 +291,7 @@ def add_comment(request,tribe_id,playlist_id,song_id):
     playlist =get_object_or_404(Playlist, pk=playlist_id)
     song = get_object_or_404(Song, pk=song_id)
     form = CommentForm(request.POST)
-    if request.method == 'POST':  
+    if request.method == 'POST' and request.user.is_authenticated:  
         if form.is_valid():
             saved_comment= form.save(commit=False)
             saved_comment.user = request.user.profile
