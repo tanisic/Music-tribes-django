@@ -277,11 +277,8 @@ def kick(request,tribe_id,user_id):
     user = User.objects.get(id=user_id)
     profile = user.profile
     if request.method == 'POST' and is_chieftain(profile,tribe):
-        if request.user.profile == tribe.chieftain:
-            pass
-        else:
-            profile.tribes.remove(tribe)       
-        return HttpResponseRedirect(reverse('app:tribe',args=(tribe_id,)))
+            profile.tribes.remove(tribe)      
+            return HttpResponseRedirect(reverse('app:tribe',args=(tribe_id,)))
     else:
         context = {"tribe":tribe}
         return render(request,"app/tribe.html",context)

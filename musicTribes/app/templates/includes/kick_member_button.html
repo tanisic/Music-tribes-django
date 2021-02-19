@@ -1,4 +1,4 @@
-<form action="{% url 'app:kick' tribe_id=tribe.id user_id=user.id %}" method ="post" role="form">
+<form action="{% url 'app:kick' tribe_id=tribe.id user_id=tribe_member.id %}" method ="post" role="form">
     {% csrf_token %}
     <input type="submit" value="Kick" class="btn btn-danger">
 </form>
