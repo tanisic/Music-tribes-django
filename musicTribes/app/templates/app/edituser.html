@@ -1,24 +1,26 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block content %}
+<div class="container all-forms">
     <div class="edit-user-header">
-        <h1>{{user.username}}</h1>
         {% if profile.avatar_img %}
             <img class="avatar" src ="{{profile.avatar_img.url}}"></img>
         {% else %}
             <img class="avatar" src ="{{profile.avatarurl}}"></img>
         {% endif %}
+        <h1 style="display:inline;font-family: 'Noto Serif', serif;">{{user.username}}</h1>
+        <p style="font-family: 'Noto Serif', serif;">{{profile.bio}}</p>
     </div>
-    <a href="{%url 'accounts:changepassword' %}">Change password</a>
-    <a href="{%url 'accounts:extendededit' %}">Change bio and avatar</a>
-    <div class="row">
-        <div class="col-md-12"><h2 class="text-center">Edit profile</h2></div>
+    <div class="edit-user-optional">
+        <a href="{%url 'accounts:changepassword' %}" class="btn btn-info">Change password</a>
+        <a href="{%url 'accounts:extendededit' %}" class="btn btn-info">Change bio and avatar</a>
     </div>
-        <form method="post" accept-charset="utf-8">
-            {% csrf_token %}
-            
-            {%include 'includes/bs4_form.html' %}
-            <div class="row">
-            <div class="col-md-8 mx-auto"><input type="submit" value="Save" class="btn btn-primary"></div>
-        </form>
+    <form method="post" accept-charset="utf-8">
+        {% csrf_token %}
+        
+        {%include 'includes/bs4_form.html' %}
+        <div class="row">
+        <div class="col-md-8 mx-auto"><input type="submit" value="Save" class="btn btn-primary"></div>
+    </form>
+</div>
 {% endblock %}

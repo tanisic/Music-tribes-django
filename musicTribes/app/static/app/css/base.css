@@ -1,12 +1,32 @@
+body{
+    background: rgb(62,60,60);
+    background: linear-gradient(0deg, rgba(62,60,60,1) 0%, rgba(126,131,138,1) 0%);
+    overflow-x:hidden;
+}
+.all-forms{
+    background:rgb(236, 236, 236);
+    padding:3%;
+}
+.tribe-main-container{
+    height:100%;
+}
 .card-img{
+    margin-right:1%;
+    margin-left:1%;
     width:50px;
-    height:60px;
+    height:50px;
     border-radius: 50%;
+}
+.card-footer{
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+   
 }
 .avatar{
     width:50px;
-    height:60px;
+    height:50px;
     border-radius: 50%;
+    margin-right:2%;
+    margin-left:2%;
 }
 .avatar-mini{
     width:30px;
@@ -23,51 +43,55 @@
 }
 .tribe-logo{
     width:60px;
-    height:50x;
+    height:50px;
+    margin-right:2%;
+    margin-left:2%;
 }
 .messages-container{
     margin-top: 10px;
-    overflow-y: scroll;
-    border:solid gray 1px;
+    overflow-y: auto;
+    border:solid rgb(70, 69, 69) 1px;
     border-radius:10px;
     height: 400px;
     width: 98%;
 }
 .members-container{
+    margin-top:2%;
+    background: rgb(255,255,255);
+    background: linear-gradient(264deg, rgba(255,255,255,1) 0%, rgba(39,50,66,1) 0%);
     border-right:solid gray 1px;
     border-bottom:solid gray 1px;
-    margin-top: 5px;
-    
-    overflow-y: scroll;
+    border-radius:5%;
+    overflow-y: auto;
+    overflow-x:auto;
     height: 700px;
-}
-.songs-container{
-    background-color: aquamarine;
-    /*max-height:750px;*/
-    width:50%;
-    margin-top:1%;
-    /*overflow-y:scroll;*/
+    color:rgb(214, 214, 214);
 }
 .description-container{
-    margin-left:1%;
-    margin-right:5%;
-    margin-top:1%;
-    border:solid gray 1px;
-    border-radius:10%;
-    width:30%;
-    min-height:400px;
+    text-align:center;
 }
-.playlist-main-container{
-    display:flex;
+.playlist-main{
+    height:100%;
+   
+}
+.jumbo{
+    background: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(150,152,199,1) 100%);
 }
 #playlist-name{
     text-align:center;
-    border-bottom:solid gray 2px;
+    border-bottom:solid rgb(173, 171, 171) 2px;
     border-radius:20%;
 }
 .message{
     font-size: 1.2em;
-    margin-left:4px;
+    margin:3%;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+}
+.comment{
+    margin:2%;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-weight:500;
 }
 textarea{
     max-height:50px;
@@ -80,4 +104,18 @@ textarea{
     max-height:250px;
     border:solid 1px;
     border-color:#D8D8D8;
+}
+.gen-buttons{
+    margin:-3%;
+}
+.tribe-name{
+    font-family: 'Noto Sans', sans-serif;
+}
+.edit-user-header{
+    margin:2%;
+    text-align:center;
+}
+.edit-user-optional{
+    margin:2%;
+    text-align:center;
 }

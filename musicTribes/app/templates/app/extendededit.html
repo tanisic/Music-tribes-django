@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 
+<div class="container all-forms">
     <div class="row">
         <div class="col-md-12"><h2 class="text-center">Change avatar and bio</h2></div>
     </div>
@@ -11,4 +12,6 @@
             {%include 'includes/bs4_form.html' with form=form %}
             <div class="row">
             <div class="col-md-8 mx-auto"><input type="submit" value="Save" class="btn btn-primary"></div>
+        </form>
+</div>
 {% endblock %}

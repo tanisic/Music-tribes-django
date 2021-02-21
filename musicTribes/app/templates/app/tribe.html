@@ -2,10 +2,15 @@
 {% load static %}
 {% block content %}
 <div class="jumbotron">
-<div class="container-fluid">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-2 d-flex ">
-                
+            <div class="col-3 d-flex ">
+                    {% if user.username != tribe.created_by and is_member_of_tribe and user.is_authenticated %}
+                    <div class = "joined-container float-right" style="display:inline; margin-right:3%;">
+                        <h2 style="display:inline;">Joined</h2>
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </div>
+                    {% endif %}
                     {% if user.username == tribe.created_by%}
                     {% include "includes/update_tribe_button.html" with playlist=playlist %}
                     {% endif %}
@@ -15,7 +20,6 @@
 
                     {% if user.username != tribe.created_by and is_member_of_tribe and user.is_authenticated %}
                     {% include 'includes/leave_tribe_button.html' with tribe=tribe %}
-                    <div style="margin-right: 10px;"></div>
                     {% endif %}
 
                     {% if user.is_authenticated and is_member_of_tribe %}
@@ -29,118 +33,113 @@
                 {% else %}
                     <img class = "tribe-logo" src="{{tribe.logourl}}"></img>
                 {% endif%}
-                <h1 style="text-align:center;">{{ tribe.name }}</h1>
+                <h1 style="text-align:center;font-family: 'Noto Serif', serif;font-weight:bold; color:#3c3a3a;">{{ tribe.name }}</h1>
             </div>
+            <div class="col-3"></div>
+        
             <div class="col-3 d-flex justify-content-center">
-                <h2 class="text-muted">Chieftain: {{ tribe.created_by }}</h2>
+                <h2 class="text-muted">Chieftain: {{ tribe.created_by }} </h2>
                 {%if tribe.chieftain.avatar_img%}
                     <img class = "avatar" src="{{tribe.chieftain.avatar_img.url}}"></img>
                 {% else %}
                     <img class = "avatar" src="{{tribe.chieftainn.avatarurl}}"></img>
                 {% endif%}
             </div>
-            <div class="col-4 ">
-                {% if user.username != tribe.created_by and is_member_of_tribe and user.is_authenticated %}
-                <div class = "joined-container float-right" style="display:inline;">
-                    <h2 style="display:inline;">Joined</h2>
-                    <i class="fa fa-check" aria-hidden="true"></i>
-                </div>
-                {% endif %}
             </div>
         </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-2">
-        <div class ="members-container">
-        <h1 style="border-bottom: solid black 1px;">Members</h1>
-        {% for tribe_member in tribe_members %}
-        <div class="edit-user-header">
-            {%if tribe_member.avatar_img%}
-                <img class = "avatar" src="{{tribe_member.avatar_img.url}}"></img>
-            {% else %}
-                <img class = "avatar" src="{{tribe_member.avatarurl}}"></img>
-            {% endif%}
-            <h2 style="display:inline;">{{tribe_member}}</h2>
-            {% if is_chieftain and not tribe_member == tribe.chieftain %}
-                {% include "includes/kick_member_button.html" with tribe=tribe user=tribe_member %}
-            {% endif %}
-        </div>
-    
-        {%empty%}
-        <h5 class="text-muted">This tribe has no members yet.</h5>
-    
-    {% endfor %}
-        </div>
-    </div>
-
-    <div class="col-7">
-        <h1>Playlists</h1>
+<div class="container-fluid tribe-main-container">
+    <div class="row">
+        <div class="col-2">
+            <div class ="members-container">
+            <h1 style="border-bottom: solid gray 1px; text-align:center;padding:2%;">Members</h1>
+            {% for tribe_member in tribe_members %}
+            <div class="edit-user-header" style="display:flex;" >
+                {%if tribe_member.avatar_img%}
+                    <img class = "avatar" src="{{tribe_member.avatar_img.url}}"></img>
+                {% else %}
+                    <img class = "avatar" src="{{tribe_member.avatarurl}}"></img>
+                {% endif%}
+                <h2 style="display:inline;">{{tribe_member}}</h2>
+                {% if is_chieftain and not tribe_member == tribe.chieftain %}
+                    {% include "includes/kick_member_button.html" with tribe=tribe user=tribe_member %}
+                {% endif %}
+            </div>
         
-        {% for playlist in playlists %}
-            
-            <div class="card bg-light text-dark">
-                <div class="card-body row">
-                    <div class="col-10">
-                        <a href="{% url 'app:playlist' tribe_id=tribe.id playlist_id=playlist.id %}"><h2>{{ playlist.name }}</h2></a>
-                        <p>{{ playlist.description }}</p>
-                    </div>
-                    <div class="col-2">
-                        {% if user == playlist.creator.user or user.is_superuser or user == tribe.chieftain %}
-                        {% include "includes/update_playlist_button.html" with playlist=playlist %}
-                        {% include "includes/delete_playlist_button.html" with playlist=playlist %}
-                        {% endif %}
-                    </div>
-                </div>
-            </div> 
             {%empty%}
-            <h5 class="text-muted">Nothing here yet.</h5>
-            {% endfor %}                      
-    </div>
+            <h5 class="text-muted">This tribe has no members yet.</h5>
+        
+        {% endfor %}
+            </div>
+        </div>
 
-    <div class="col-3">
-    <h1 style="text-align:center;">Chatbox</h1>
-        <div class ="messages-container">
+        <div class="col-7">
+            <h1 style="margin:2%;">Playlists</h1>
+            
+            {% for playlist in playlists %}
+                
+                <div class="card bg-light text-dark">
+                    <div class="card-body row">
+                        <div class="col-10">
+                            <a href="{% url 'app:playlist' tribe_id=tribe.id playlist_id=playlist.id %}"><h2 style="font-family: 'Noto Serif', serif;">{{ playlist.name }}</h2></a>
+                            <p class="text-muted">{{ playlist.description }}</p>
+                        </div>
+                        <div class="col-2">
+                            {% if user == playlist.creator.user or user.is_superuser or user == tribe.chieftain %}
+                            {% include "includes/update_playlist_button.html" with playlist=playlist %}
+                            {% include "includes/delete_playlist_button.html" with playlist=playlist %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div> 
+                {%empty%}
+                <h5>Nothing here yet.</h5>
+                {% endfor %}                      
+        </div>
 
-            {% for message in messages %}
-            <div class="card bg-basic">
+        <div class="col-3">
+        <h1 style="text-align:center;margin:2%;">Chatbox</h1>
+            <div class ="messages-container">
+
+                {% for message in messages %}
+                <div class="card bg-basic">
 
                     <p class="message">{{message.text}}</p>
-        
-                <div class="card-footer">
-                    {%if message.user.avatar_img%}
-                        <img class = "avatar-mini" src="{{message.user.avatar_img.url}}"></img>
-                    {% else %}
-                        <img class = "avatar-mini" src="{{message.user.avatarurl}}"></img>
-                    {% endif %}
-                        <p style="display:inline;">{{message.user}}, {{message.created_at}}</p>
-                    {% if tribe.chieftain == message.user %}
-                        <img src="{% static '/app/chieftain-logo.png' %}" width="20" height="20" alt="">
-                    {% endif %}
-                    {% if tribe.chieftain == user.profile or user.is_superuser%}
-                        {% include 'includes/delete_message_button.html' with message=message%}
-                    {% endif %}
-                </div>
-            </div> 
-            {%empty%}
-            <h5 class="text-muted">Nothing here yet.</h5>
-            {% endfor %}  
+            
+                    <div class="card-footer">
+                        {%if message.user.avatar_img%}
+                            <img class = "avatar-mini" src="{{message.user.avatar_img.url}}"></img>
+                        {% else %}
+                            <img class = "avatar-mini" src="{{message.user.avatarurl}}"></img>
+                        {% endif %}
+                            <p style="display:inline;">{{message.user}}, {{message.created_at}}</p>
+                        {% if tribe.chieftain == message.user %}
+                            <img src="{% static '/app/chieftain-logo.png' %}" width="20" height="20" alt="">
+                        {% endif %}
+                        {% if tribe.chieftain == user.profile or user.is_superuser%}
+                            {% include 'includes/delete_message_button.html' with message=message%}
+                        {% endif %}
+                    </div>
+                </div> 
+                {%empty%}
+                <h5 style="color:#3a3c3e; text-align:center;" >Be the first one to post a message!</h5>
+                {% endfor %}  
+            </div>
+            <div>
+            {% if user.is_authenticated %}
+                    <form action="{% url 'app:add_message' tribe.id %}" accept-charset="utf-8" method = "POST"  style="text-align:center;">
+                            {% csrf_token %}
+                            {% include 'includes/bs4_form.html' with form=form %}
+                            <input type="submit" value="Post message" class="btn btn-primary">
+                        
+                    </form>
+                {%endif%}
+            </div>
         </div>
-        <div>
-        {% if user.is_authenticated %}
-            <h2 style="text-align:center;">Post a message</h2>   
-                <form action="{% url 'app:add_message' tribe.id %}" accept-charset="utf-8" method = "POST"  style="text-align:center;">
-                        {% csrf_token %}
-                        {% include 'includes/bs4_form.html' with form=form %}
-                        <input type="submit" value="Post message" class="btn btn-primary">
-                    
-                </form>
-            {%endif%}
-        </div>
-    </div>
 
-<!--#row-->
+    <!--#row-->
+    </div>
 </div>
 
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block content %}
 
     
-<div class="jumbotron d-flex">
+<div class="jumbotron d-flex jumbo">
     <div class="container-fluid">
         <div class="row">
             <div class="col-3">
@@ -15,25 +15,25 @@
 
             </div>
             <div class="col-2">
-                <h4 class="text-muted">Created by: {{playlist.creator}}</h4>
-                <h6 class = "text-muted">{{playlist.created_at}}</h6>
+                <h4>Created by: {{playlist.creator}}</h4>
+                <h6>{{playlist.created_at}}</h6>
             </div>
         </div>
     </div>
 </div>
-
+<div class="container-fluid playlist-main">
     <div class="row">
-        <div class ="col-5">
-            <h1 id="playlist-name">{{playlist.name}}</h1>
-            <h5 style="display:inline;">Description: </h5>
-            <p style="display:inline;">{{playlist.description}}</p>
+        <div class ="col-5 description-container">
+            <h1 id="playlist-name"style="font-family: 'Noto Serif', serif;font-weight:bold;margin:2%;">{{playlist.name}}</h1>
+            <h5 style="font-family: 'Noto Serif', serif;display:inline;margin:2%;">Description: </h5>
+            <p style="font-family: 'Noto Serif', serif;display:inline;">{{playlist.description}}</p>
         </div>
-        <div class ="col-7">
-            {%include "includes/songs.html" with song_with_likes=song_with_likes%}
+        <div class ="col-7 songs-container">
+            {%include "app/songs.html" with song_with_likes=song_with_likes%}
         <!--#songs-container-->
         </div>
     </div>
-
+</div>
 
 <script>
 function showComments() {
