@@ -42,8 +42,11 @@
     height: 700px;
 }
 .songs-container{
+    background-color: aquamarine;
+    /*max-height:750px;*/
     width:50%;
     margin-top:1%;
+    /*overflow-y:scroll;*/
 }
 .description-container{
     margin-left:1%;
@@ -72,7 +75,9 @@ textarea{
 .comments{
     display:none;
     width:100%;
+    margin-top:1%;
+    overflow-y:scroll;
+    max-height:250px;
     border:solid 1px;
-    border-radius:10%;
     border-color:#D8D8D8;
 }

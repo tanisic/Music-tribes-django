@@ -1,5 +1,5 @@
 <form action="{% url 'app:delete_message' tribe_id=tribe.id message_id=message.id %}" method="POST" role="form" style="display:inline;">
     {% csrf_token %}
-    <input type="submit" value="Remove" class="btn btn-danger"/>
+    <input type="submit" value="Remove" class="btn btn-danger">
 </form>
 
