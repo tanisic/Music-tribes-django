@@ -17,7 +17,7 @@
                 <h4 style="display:inline;">{{song.seconds}})</h4>
             </div>
             <div class="col-1">
-                <a href="{{song.url}}" class="btn btn-info"><i class="fas fa-play fa-lg"></i></a>
+                <a href="{{song.url}}" class="btn btn-info" target="_blank"><i class="fas fa-play fa-lg"></i></a>
             </div>
             <div class="col-3 d-flex justify-content-center">
                 {% if user == playlist.creator.user or user.is_superuser or user == tribe.chieftain or user.profile == song.creator%}
@@ -73,5 +73,5 @@
 <!--#Card-->
 </div>
 {%empty%}
-<h5 class="text-muted">Playlist is empty.</h5>
+<h5>Playlist is empty.</h5>
 {% endfor %}

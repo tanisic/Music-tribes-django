@@ -1,6 +1,6 @@
 <div>
     <form action="{% url 'app:delete_playlist' playlist.id %}" method="POST" role="form" class="form-inline float-left">
         {% csrf_token %}
-        <input type="submit" value="Delete Playlist" class="btn btn-danger">
+        <input type="submit" value="Delete" class="btn btn-danger">
     </form>
 </div>

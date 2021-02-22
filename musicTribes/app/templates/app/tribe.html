@@ -39,10 +39,10 @@
         
             <div class="col-3 d-flex justify-content-center">
                 <h2 class="text-muted">Chieftain: {{ tribe.created_by }} </h2>
-                {%if tribe.chieftain.avatar_img%}
+                {% if tribe.chieftain.avatar_img %}
                     <img class = "avatar" src="{{tribe.chieftain.avatar_img.url}}"></img>
                 {% else %}
-                    <img class = "avatar" src="{{tribe.chieftainn.avatarurl}}"></img>
+                    <img class = "avatar" src="{{tribe.chieftain.avatarurl}}"></img>
                 {% endif%}
             </div>
             </div>

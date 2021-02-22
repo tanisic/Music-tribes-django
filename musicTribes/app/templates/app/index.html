@@ -21,6 +21,8 @@
                     
                 </div>
             </div>
+        {% empty %}
+            <h2 style="margin:2%;">No tribes yet.</h2>
         {% endfor %}  
     {%else%}
         <h1 style="font-family: 'Noto Serif', serif;margin:2%;">Chieftain tribes</h1>
@@ -42,51 +44,54 @@
                     
                 </div>
             </div>
-            {%empty%}
-            <h5 class="text-muted">You aren't a chieftain of any tribes. Create a new tribe to become a chieftain.</h5>
-            {% endfor %}
-            <h1 style="font-family: 'Noto Serif', serif; margin:2%;">Member tribes</h1>
-            {% for member_tribe in member_tribes%}
-            <div class="card bg-light text-dark">
-                <div class="card-body">
-                    {%if member_tribe.logo_img%}
-                        <img class = "tribe-logo" src="{{member_tribe.logo_img.url}}"></img>
-                    {% else %}
-                        <img class = "tribe-logo" src="{{member_tribe.logourl}}"></img>
-                    {% endif%}
-                    <a href="{% url 'app:tribe' member_tribe.id %}"><h1 class="tribe-name" style="display:inline;">{{ member_tribe.name }}</h1></a>
-                    {% if member_tribe.author.avatar_img %}
-                        <img class="card-img float-right" src="{{member_tribe.author.avatar_img.url}}" alt="Card image">
-                    {% else %}
-                        <img class="card-img float-right" src="{{member_tribe.author.avatarurl}}" alt="Card image">
-                    {% endif %}
-                    <h4 class ="text-muted float-right" style="display:inline;">{{member_tribe.created_by}}</h4>
+         
+            {% empty %}
+            <h5>You aren't a chieftain of any tribes. Create a new tribe to become a chieftain.</h5> 
+        {% endfor %}
+        <h1 style="font-family: 'Noto Serif', serif; margin:2%;">Member tribes</h1>
+        {% for member_tribe in member_tribes%}
+            {% if not member_tribe in chieftain_tribes%}
+                <div class="card bg-light text-dark">
+                    <div class="card-body">
+                        {%if member_tribe.logo_img%}
+                            <img class = "tribe-logo" src="{{member_tribe.logo_img.url}}"></img>
+                        {% else %}
+                            <img class = "tribe-logo" src="{{member_tribe.logourl}}"></img>
+                        {% endif%}
+                        <a href="{% url 'app:tribe' member_tribe.id %}"><h1 class="tribe-name" style="display:inline;">{{ member_tribe.name }}</h1></a>
+                        {% if member_tribe.author.avatar_img %}
+                            <img class="card-img float-right" src="{{member_tribe.author.avatar_img.url}}" alt="Card image">
+                        {% else %}
+                            <img class="card-img float-right" src="{{member_tribe.author.avatarurl}}" alt="Card image">
+                        {% endif %}
+                        <h4 class ="text-muted float-right" style="display:inline;">{{member_tribe.created_by}}</h4>
+                    </div>
                 </div>
+           {% endif %}
+        {%empty%}
+        <h5 >You aren't a member of any tribes.</h5>
+        {% endfor %}
+        <h1 style="font-family: 'Noto Serif', serif;margin:2%;">Discover tribes</h1>
+        {% for discover_tribe in discover_tribes%}
+        <div class="card bg-light text-dark">
+            <div class="card-body">
+                {%if dicover_tribe.logo_img%}
+                    <img class = "tribe-logo" src="{{discover_tribe.logo_img.url}}"></img>
+                {% else %}
+                    <img class = "tribe-logo" src="{{discover_tribe.logourl}}"></img>
+                {% endif%}
+                <a href="{% url 'app:tribe' discover_tribe.id %}"><h1 class="tribe-name" style="display:inline;">{{ discover_tribe.name }}</h1></a>
+                {% if discover_tribe.author.avatar_img %}
+                    <img class="card-img float-right" src="{{discover_tribe.author.avatar_img.url}}" alt="Card image">
+                {% else %}
+                    <img class="card-img float-right" src="{{discover_tribe.author.avatarurl}}" alt="Card image">
+                {% endif %}
+                <h4 class ="text-muted float-right" style="display:inline;">{{discover_tribe.created_by}}</h4>
             </div>
-            {%empty%}
-            <h5 class="text-muted">You aren't a member of any tribes.</h5>
-            {% endfor %}
-            <h1 style="font-family: 'Noto Serif', serif;margin:2%;">Discover tribes</h1>
-            {% for discover_tribe in discover_tribes%}
-            <div class="card bg-light text-dark">
-                <div class="card-body">
-                    {%if dicover_tribe.logo_img%}
-                        <img class = "tribe-logo" src="{{discover_tribe.logo_img.url}}"></img>
-                    {% else %}
-                        <img class = "tribe-logo" src="{{discover_tribe.logourl}}"></img>
-                    {% endif%}
-                    <a href="{% url 'app:tribe' discover_tribe.id %}"><h1 class="tribe-name" style="display:inline;">{{ discover_tribe.name }}</h1></a>
-                    {% if discover_tribe.author.avatar_img %}
-                        <img class="card-img float-right" src="{{discover_tribe.author.avatar_img.url}}" alt="Card image">
-                    {% else %}
-                        <img class="card-img float-right" src="{{discover_tribe.author.avatarurl}}" alt="Card image">
-                    {% endif %}
-                    <h4 class ="text-muted float-right" style="display:inline;">{{discover_tribe.created_by}}</h4>
-                </div>
-            </div>
-            {%empty%}
-            <h5 class="text-muted">Nothing here yet.</h5>
-            {% endfor %}
+        </div>
+        {%empty%}
+        <h5 >Nothing here yet.</h5>
+        {% endfor %}
     {%endif%} 
 </div>
 {% endblock %}
