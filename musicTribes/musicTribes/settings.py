@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'bootstrap4',
+    'bootstrap_datepicker_plus',
     'widget_tweaks',
 ]
 
@@ -125,6 +128,10 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL= '/'
 LOGOUT_REDIRECT_URL ='/'
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 

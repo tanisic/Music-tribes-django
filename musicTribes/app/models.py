@@ -3,6 +3,7 @@ from django.db.models import constraints
 from django.utils import timezone
 from django.contrib.auth.models import User
 from accounts.models import Profile
+import datetime
 
 class TimeStamped(models.Model):
     created_at = models.DateTimeField(editable=False)
@@ -53,10 +54,9 @@ class Song(TimeStamped):
     url = models.CharField(max_length=200,unique=False,blank=False)
     title = models.CharField(blank=False,max_length=200)
     artist = models.CharField(blank=False,max_length=200)
-    minutes = models.PositiveIntegerField(blank=False)
-    seconds = models.PositiveIntegerField(blank=False)
     creator = models.ForeignKey(Profile,on_delete=models.CASCADE)
     playlist = models.ForeignKey(Playlist,on_delete=models.CASCADE)
+    song_duration = models.TimeField()
 
     def __str__(self):
         return self.title

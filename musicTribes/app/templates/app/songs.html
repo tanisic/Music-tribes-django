@@ -5,16 +5,7 @@
     <div class="card-body">
         <div class ="row">
             <div class="col-8">
-                <h4 style="display:inline;font-family: 'Arimo', sans-serif; font-weight:600;">{{ song.artist }} - {{ song.title }}</h4>
-                <h4 style="display:inline;">(</h4>
-                {% if song.minutes < 10 %}
-                    <h4 style="display:inline;margin-right:-5px;margin-left:-5px;">0</h4>
-                {% endif %}
-                <h4 style="display:inline;">{{song.minutes}}:</h4>
-                {% if song.seconds < 10 %}
-                    <h4 style="display:inline;margin-right:-5px;margin-left:-5px;">0</h4>
-                {% endif %}
-                <h4 style="display:inline;">{{song.seconds}})</h4>
+                <h4 style="display:inline;font-family: 'Arimo', sans-serif; font-weight:600;">{{ song.artist }} - {{ song.title }} {{song.song_duration|time:"H:i"}} </h4>
             </div>
             <div class="col-1">
                 <a href="{{song.url}}" class="btn btn-info" target="_blank"><i class="fas fa-play fa-lg"></i></a>
