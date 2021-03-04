@@ -289,16 +289,17 @@ def add_comment(request,tribe_id,playlist_id,song_id):
     song = get_object_or_404(Song, pk=song_id)
     form = CommentForm(request.POST)
     if request.method == 'POST' and request.user.is_authenticated:  
-        if form.is_valid():
-            saved_comment= form.save(commit=False)
-            saved_comment.user = request.user.profile
-            saved_comment.song = song
-            saved_comment.save()
-            return HttpResponseRedirect(reverse('app:playlist', args=(tribe.id,playlist.id,)))
-        else:
-            context = {'playlist':playlist,
-                'form':form}
-            return render(request,'app/playlist.html',context)
+        if request.user.profile in tribe.members:
+            if form.is_valid():
+                saved_comment= form.save(commit=False)
+                saved_comment.user = request.user.profile
+                saved_comment.song = song
+                saved_comment.save()
+                return HttpResponseRedirect(reverse('app:playlist', args=(tribe.id,playlist.id,)))
+            else:
+                context = {'playlist':playlist,
+                    'form':form}
+                return render(request,'app/playlist.html',context)
     else:
         return HttpResponseRedirect(reverse('app:playlist',args=(tribe_id,playlist_id,)))
 
