@@ -20,7 +20,9 @@
                     {% else %}
                         {% include "includes/like_button.html" with song=song %}
                     {% endif %}
-                {% endif %}   
+                {% else %}
+                    <h5 style="margin-left:3%;margin-top:1%;">Likes: </h5>
+                {% endif %}  
                 <h5 style="margin-left:3%;margin-top:1%;">{{ like_count }}</h5>
             </div>
         </div>

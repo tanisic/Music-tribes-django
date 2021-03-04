@@ -18,7 +18,7 @@
                     {% include 'includes/join_button.html' with tribe=tribe %}
                     {% endif %}
 
-                    {% if user.username != tribe.created_by and is_member_of_tribe and user.is_authenticated %}
+                    {% if user.profile != tribe.chieftain and is_member_of_tribe and user.is_authenticated %}
                     {% include 'includes/leave_tribe_button.html' with tribe=tribe %}
                     {% endif %}
 
