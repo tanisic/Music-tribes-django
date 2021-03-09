@@ -48,7 +48,7 @@ def editprofile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, _('Your profile was successfully updated!'))
+            messages.success(request, ('Your profile was successfully updated!'))
             return HttpResponseRedirect(reverse('app:index'))
 
         else: 
